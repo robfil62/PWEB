@@ -2,23 +2,17 @@
 <html>
   <head>
     <title>Odyssée</title>
+    <script type="text/javascript" src="page_accueil.js">
+    </script>
     <h1>Odyssée</h1>
   </head>
   <body>
     <form id="barreDeRecherche">
-      <input type="text" value="Votre Budget">
-      <input type="text" name="" value="Date de départ">
-      <input type="text" name="" value="Date de retour">
+      <input type="text" value="Votre Budget" id = "budget">
+      <input type="text" name="" value="Date de départ" id="date_aller">
+      <input type="text" name="" value="Date de retour" id="date_retour">
       <input type="submit" name="" value="Rechercher">
     </form>
-
-    <script>
-      var barreDeRecherche = document.getElementById('barreDeRecherche');
-      barreDeRecherche.addEventListener('submit', function(e){
-        e.preventDefault();
-      });
-    </script>
-
     <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
   </body>
 </html>
