@@ -1,0 +1,25 @@
+
+
+INSERT INTO destination (id_destination, pays, environnement, meteo) 
+ VALUES ('1', 'France', 'mer', 'ensoleille')
+
+INSERT INTO destination (id_destination, pays, environnement, meteo) 
+ VALUES ('2', 'France', 'montagne', 'neige')
+
+INSERT INTO destination (id_destination, pays, environnement, meteo) 
+ VALUES ('3', 'France', 'grande ville', 'tempere')
+
+INSERT INTO destination (id_destination, pays, environnement, meteo) 
+ VALUES ('4', 'Inde', 'grande ville', 'ensoleille')
+
+
+
+INSERT INTO Vendeur (id_vendeur, nom_vendeur, email, mdp, site) 
+ VALUES ('1', 'air Fronce', 'air@fronce.com', 'JeSuisAirFronce', 'www.air-fronce.com');
+
+INSERT INTO Offre (id_offre, id_destination, id_vendeur, depart, moyen_transport, date_offre, prix_offre) 
+ VALUES ('1', '2', '1', 'Italie', 'avion', '20/12/2019', '65.0');
+
+INSERT INTO Offre (id_offre, id_destination, id_vendeur, depart, moyen_transport, date_offre, prix_offre) 
+ VALUES ('2', '4', '1', 'Allemagne', 'train', '10/07/2019', '79.0');
+

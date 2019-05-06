@@ -1,0 +1,27 @@
+CREATE TABLE Destination (
+id_destination INT PRIMARY KEY NOT NULL,
+pays VARCHAR(255),
+environnement VARCHAR(255),
+meteo VARCHAR(255)
+);
+
+CREATE TABLE Vendeur (
+id_vendeur INT PRIMARY KEY NOT NULL,
+nom_vendeur VARCHAR(255),
+email VARCHAR(255),
+mdp VARCHAR(255),
+site VARCHAR(255)
+);
+
+CREATE TABLE Offre (
+id_offre INT NOT NULL,
+id_destination INT NOT NULL,
+id_vendeur INT NOT NULL,
+moyen_transport VARCHAR(255),
+depart VARCHAR(255),
+date_offre DATE,
+prix_offre FLOAT,
+PRIMARY KEY(id_offre),
+FOREIGN KEY(id_destination) REFERENCES Destination(id_destination),
+FOREIGN KEY(id_vendeur) REFERENCES Vendeur(id_vendeur)
+);
