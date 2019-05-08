@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    h1{
+      text-align: center;
+    }
+    body{
+      background-color: lightgreen;
+    }
+    p{
+      color:red;
+      text-shadow: #D473D4 1px 0 10px;
+    }
+    </style>
+    <title>Odyssée</title>
+    <h1>Odyssée</h1>
+  </head>
+  <body>
+{% for post in data %}
+<p> {{ post}}  </p>
+{% endfor %}
+  </body>
+</html>
