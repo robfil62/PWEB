@@ -1,10 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>Odyssée</title>
     <h1>Odyssée</h1>
   </head>
   <body>
+    <form id="barreDeRecherche">
 
+      <label>Budget :</label>
+      <input type="text" id="budget" name="budget">
+      <br /><br />
+
+      <label>Lieu de départ :</label>
+      <input type="text" id ="lieu" name='lieu'>
+      <br /><br />
+
+      <label>Date de départ :</label>
+      <input type="date" id="date_aller">
+      <br /><br />
+
+      <label>Date de retour :</label>
+      <input type="date" id="date_retour">
+      <br /><br />
+
+      <input type="submit" name="" value="Rechercher">
+    </form>
+    <script type="text/javascript" src="page_accueil.js"></script>
+    <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
   </body>
 </html>

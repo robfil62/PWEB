@@ -14,6 +14,8 @@ def page_accueil():
 @app.route('/Odyssee/search?<budget>',methods=['GET'])
 def search(budget):
     if request.method == 'GET':
+        print("requête fonctionne");
+        print(budget);
         data=prog.get_bd(budget);
         if (data==[]):
             return render_template('no_results.html')
