@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Odyssée - Recherche avancée</title>
+    <h1>Odysée</h1>
+    <h2>Recherche avancée</h2>
+  </head>
+  <body>
+    <form class="" action="http://localhost:5000/Odysee/advanced_search" method="get">
+
+      <label for="budget">Budget :</label>
+      <input type="number" id="budget" name="budget" required min="0">
+      <br /><br />
+
+      <label for="lieu">Lieu de départ :</label>
+      <input type="text" id ="lieu" name='lieu' required minlength="2">
+      <br /><br />
+
+      <label for="date_aller">Date de départ :</label>
+      <input type="date" id="date_aller" name="date_aller" required>
+      <br /><br />
+
+      <label for="date_retour">Date de retour :</label>
+      <input type="date" id="date_retour" name="date_retour" required>
+      <br /><br />
+
+      <label for="meteo">Climat</label>
+      <select class="" name="meteo">
+        <option value="neige">Enneigé</option>
+        <option value="froid">Froid</option>
+        <option value="pluie">Pluvieux</option>
+        <option value="tempere">Tempéré</option>
+        <option value="soleil">Ensoleillé</option>
+        <option value="grande chaleur">Grande chaleur</option>
+      </select>
+      <br><br>
+
+      <label for="environnement">Type d'environnement</label>
+      <select class="" name="environnement">
+        <option value="jungle">Jungle</option>
+        <option value="foret">Forêt</option>
+        <option value="montagne">Montagne</option>
+        <option value="mer">Mer</option>
+        <option value="ocean">Océan</option>
+        <option value="desert">Désert</option>
+        <option value="plaine">Plaine</option>
+      </select>
+      <br><br>
+
+      <label for="urbanisme">Urbanisme</label>
+      <select class="" name="urbanisme">
+        <option value="metropole">Métropole</option>
+        <option value="ville">Ville</option>
+        <option value="village">Village</option>
+        <option value="nature">Nature</option>
+      </select>
+      <br><br>
+
+      <input type="submit" name="" value="Rechercher">
+
+    </form>
+  </body>
+</html>

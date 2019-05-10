@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Odyssée - Ajouter offre</title>
+    <h1>Ajout d'offre</h1>
+  </head>
+  <body>
+    <p>Veuillez renseigner les champs ci-dessous pour ajouter votre offre</p>
+
+    <form class="" action="http://localhost:5000/" method="post">
+
+      <label for="destination">Destination</label>
+      <input type="text" name="destination" id="destination" required minlength="2">
+      <br /><br />
+
+      <label for="transport">Moyen de transport</label>
+      <input type="text" name="transport" id="transport" required minlength="2">
+      <br><br>
+
+      <label for="depart">Ville de départ</label>
+      <input type="text" name="depart" id="depart" required minlength="2">
+      <br><br>
+
+      <label for="date">Date</label>
+      <input type="date" name="date" id="date">
+      <br><br>
+
+      <label for="prix">Prix</label>
+      <input type="number" name="prix" id=prix required min="0">
+      <br><br>
+
+      <label for="lien">Lien vers le site de l'offre</label>
+      <input type="text" name="lien" id="lien" required minlength="1">
+      <br><br>
+
+      <label for="offreur">Votre identifiant</label> <!--Pour l'instant l'offreur doit rentrer son nom, l'ideal serait de le récuperer des cookies de connection mais je dois trouver un moyen d'ajouter un paramètre à un formulaire sans qu'il ne demande d'input-->
+      <input type="text" name="offreur" id="offreur" required minlength="1">
+      <br><br>
+
+      <button type="submit" name="offrir">Envoyer l'offre</button>
+
+    </form>
+
+  </body>
+</html>
