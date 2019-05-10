@@ -6,7 +6,10 @@
   </head>
   <body>
     <p>
-      <a href="Odyssee/log_offreur">[login offre]</a>
+      "Bonjour offreur"
+    <p/>
+    <p>
+      <a href="/logout">[logout]</a>
     </p>
   </body>
 </html>

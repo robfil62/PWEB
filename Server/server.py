@@ -11,12 +11,10 @@ app.secret_key = "auhasard"
 def page_accueil():
     return render_template('page_accueil.html')
 
-@app.route('/Odyssee/search?<budget>',methods=['GET'])
-def search(budget):
+@app.route('/Odyssee/search',methods=['GET'])
+def search():
     if request.method == 'GET':
-        print("requête fonctionne");
-        print(budget);
-        data=prog.get_bd(budget);
+        data=prog.get_bd(request.args.get('budget','0'));
         if (data==[]):
             return render_template('no_results.html')
         else:
@@ -26,32 +24,24 @@ def search(budget):
 def advanced_search():
     return render_template('advanced_search.html')
 
-@app.route('/Odyssee/index')
-def index():
-    if 'username' in session:
-       username = session['username']
+@app.route('/Odyssee/log_offreur')
+def offre_log_page():
+    txt = 'Bonjour !'
+    return render_template('index.html', message=txt)
 
-    app.url_for('page_accueil')
-
+@app.route('/Odyssee/page_offreur')
+def offre_page():
+    return render_template('page_offreur.html')
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-   if request.method == 'POST':
-      session['username'] = request.form['username']
-      return redirect(url_for('index'))
-   return '''
-   <form action = "" method = "post">
-      <p><input type = text name = username/></p>
-      <p<<input type = submit value = Login/></p>
-   </form>
-   '''
-
+    session['name'] =escape(request.form['name'])
+    return redirect(url_for('offre_page'))
 
 @app.route('/logout')
 def logout():
-   session.pop('username', None)
-   return redirect(url_for('index'))
-
+   session.clear()
+   return redirect(url_for('page_accueil'))
 
 if __name__=='__main__':
     app.run(debug=True)
