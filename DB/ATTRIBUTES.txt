@@ -1,0 +1,28 @@
+TABLE METEO:
+
+.meteo
+-> neige
+-> froid
+-> pluie
+-> tempere
+-> soleil
+-> grande chaleur
+
+TABLE DESTINATION:
+
+.environnement
+-> jungle
+-> foret
+-> montagne
+-> mer
+-> ocean
+-> desert
+-> plaine
+
+.urbanisme
+-> metropole
+-> ville
+-> village
+-> nature
+
+
