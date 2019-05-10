@@ -8,13 +8,20 @@
 
 <p>{{ message }}</p>
 
-<form action="/vendeur" method="POST">
+<!-- {% if logged %}
+<p>
+  <a href="logout">[logout]</a>
+</p>
+{% else %} -->
+<form action="/new_vendeur" method="POST">
   <p>
+    nom_vendeur : <input type="text" name="nom_vendeur">
     email :<input type="text" name="email">
     mdp :<input type="text" name="mdp">
     <input type="submit" value="Voilà !">
   </p>
 </form>
+<!-- {% endif %} -->
 
 </body>
 </html>
