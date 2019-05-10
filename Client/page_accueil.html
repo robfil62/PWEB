@@ -1,19 +1,93 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <style>
+  .header{
+    background-color: rgba(0,175,20,0.3);
+    color:#f2f2f2;
+    text-shadow: 2px 2px 4px #000000;
+    border-radius: 15px 50px;
+    font-family: "Courrier New", Times, serif;
+    padding:10px;
+    margin: 20px;
+    text-align: center;
+  }
+
+  .center{
+    margin: auto;
+    width: 50%;
+    padding: 10 px;
+    text-align: center;
+    background-color:rgba(50,175,20,0.3);
+    font-family: "Palatino Linotype", Palatino, serif;
+  }
+
+  input[type=text],select{
+    width:100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  input[type=submit]{
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor:pointer;
+  }
+
+  input[type=submit]:hover{
+    background-color: #45a049;
+  }
+
+  div{
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+
+  body{
+    background-color: #66CDAA;
+    background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+  }
+
+    background:url(static/logo_Ody.png)no-repeat center fixed;
+    background-size: cover;
+
+  #logo{
+    width: 150px;
+    height: 150px;
+    background-image: url(/static/logo_Ody.png) -1500px 50;
+  }
+  </style>
+
     <meta charset="utf-8" />
     <title>Odyssée</title>
-    <h1>Odyssée</h1>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+      <h1>Odyssée</h1>
+    </div>
   </head>
+
   <body>
+  <div>
     <form id="barreDeRecherche">
+      <div id="grad1"></div>
+      <div class="center">
 
       <label>Budget :</label>
-      <input type="text" id="budget" name="budget">
+      <input type="text" id="budget" name="budget" placeholder="Entrez un montant positif...">
       <br /><br />
 
       <label>Lieu de départ :</label>
-      <input type="text" id ="lieu" name='lieu'>
+      <input type="text" id ="lieu" name='lieu' placeholder="La corée du Nord bientôt ajoutée...">
       <br /><br />
 
       <label>Date de départ :</label>
@@ -28,5 +102,9 @@
     </form>
     <script type="text/javascript" src="page_accueil.js"></script>
     <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
+    </div>
+  </div>
+  <img id="home" src="/static/logo_Ody.png" width="1" height="1"><br><br>
   </body>
 </html>
+
