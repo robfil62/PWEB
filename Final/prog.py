@@ -2,12 +2,21 @@ from sqlalchemy import *
 from sqlalchemy.sql import *
 
 
-def get_bd(budget,lieu,date_depart):
+def get_bd(budget,lieu,date_depart,date_retour):
     data= []
+    villes = []
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
+    print(lieu)
     for row in connection.execute("select * from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
         data.append(row)
+
+    for row in connection.execute("select ville_depart from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
+        villes.append(row)
+
+    for ville in villes:
+        for row in connection.execute("select * from Offre where (prix_offre <= ?)and (ville_depart == ?) and (date_offre <= ?)",budget,ville[0],date_retour):
+            data.append(row)
 
     connection.close()
 
