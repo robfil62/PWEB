@@ -35,3 +35,15 @@ meteo VARCHAR(255),
 PRIMARY KEY(ville,date_debut,date_fin)
 FOREIGN KEY(ville) REFERENCES Destination(ville)
 );
+
+
+CREATE TABLE Client(
+pseudo_client VARCHAR(255) UNIQUE,
+prenom VARCHAR(255),
+nom VARCHAR(255),
+email VARCHAR(255) UNIQUE,
+PRIMARY KEY(pseudo_client)
+FOREIGN KEY(id_offre) REFERENCES Offre(id_offre)
+);
+
+
