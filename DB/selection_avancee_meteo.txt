@@ -1,0 +1,11 @@
+selection avancée des destinations correspondant à une météo:
+
+SELECT *
+FROM Meteo
+WHERE meteo == "CHOIX" AND strftime('%m','DATE') >= strftime('%m',date_debut) AND strftime('%m','DATE') <= strftime('%m',date_fin) AND strftime('%d','DATE') >= strftime('%d',date_debut) AND strftime('%d','DATE') <= strftime('%d',date_fin);
+
+DATE -> DATE DE DEPART ENTREE PAR L'UTILISATEUR au format 'YYYY-MM-DD'
+
+CHOIX -> METEO CHOISIE PAR L'UTILISATEUR (SOLEIL, FROID, PLUIE, ETC...)
+
+/!\ IMPORTANT DE BIEN METTRE LES SIMPLE QUOTES AUTOUR DE LA DATE /!\
