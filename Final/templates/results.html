@@ -7,10 +7,9 @@
     <h2>Résultats</h2>
   </head>
   <body>
-    <ul id="liste_resultats">
-      
-    </ul>
+    {% for offres in date %}
+    <p>{{ offres }}</p>
+    {% endfor %}
 
-    <script src="results.js" charset="utf-8"></script>
   </body>
 </html>

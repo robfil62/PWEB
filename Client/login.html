@@ -5,9 +5,18 @@
     <title>Odyssée - login</title>
     <h1>Odyssée</h1>
     <h2>Login</h2>
+    <script type="text/javascript">
+    encryptage = function() {
+        var mdp = document.getElementById('mdp').value;
+        console.log('wesh');
+        mdp += 'a';
+        return mdp;
+      }
+    </script>
   </head>
   <body>
-    <form class="" action="http://localhost:5000/login" method="get">
+    <p> {{message}} </p>
+    <form class="" action="http://localhost:5000/login" method="post">
 
       <label for="pseudo">Entrez votre pseudo</label>
       <input type="text" name="pseudo" id="pseudo" required minlength="2" >
@@ -18,6 +27,7 @@
       <br /><br />
 
       <button type="submit" name="connexion">Login</button>
+      <!--onclick="document.getElementById('mdp').value = encryptage(document.getElementById('mdp').value)"-->
 
     </form>
   </body>

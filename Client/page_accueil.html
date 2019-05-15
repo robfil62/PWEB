@@ -78,33 +78,33 @@
 
   <body>
   <div>
-    <form id="barreDeRecherche">
-      <div id="grad1"></div>
+    <form class="" action="http://localhost:5000/Odyssee/search" method="get">
       <div class="center">
-
-      <label>Budget :</label>
-      <input type="text" id="budget" name="budget" placeholder="Entrez un montant positif...">
+      <label for="budget">Budget :</label>
+      <input type="number" id="budget" name="budget" required min="0">
       <br /><br />
 
-      <label>Lieu de départ :</label>
-      <input type="text" id ="lieu" name='lieu' placeholder="La corée du Nord bientôt ajoutée...">
+      <label for="lieu">Lieu de départ :</label>
+      <input type="text" id ="lieu" name='lieu' required minlength="2">
       <br /><br />
 
-      <label>Date de départ :</label>
-      <input type="date" id="date_aller">
+      <label for="date_aller">Date de départ :</label>
+      <input type="date" id="date_aller" name="date_aller" required>
       <br /><br />
 
-      <label>Date de retour :</label>
-      <input type="date" id="date_retour">
+      <label for="date_retour">Date de retour :</label>
+      <input type="date" id="date_retour" name="date_retour" required>
       <br /><br />
 
       <input type="submit" name="" value="Rechercher">
     </form>
     <script type="text/javascript" src="page_accueil.js"></script>
     <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
+    <a href="http://localhost:5000/Odyssee/login_offreur">Vendeur login</a>
+    <a href="http://localhost:5000/Odyssee/sign_up_offreur">Vendeur register</a>
+
     </div>
   </div>
   <img id="home" src="/static/logo_Ody.png" width="1" height="1"><br><br>
   </body>
 </html>
-
