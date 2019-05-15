@@ -6,27 +6,26 @@
     <h1>Odyssée</h1>
   </head>
   <body>
-    <form id="barreDeRecherche">
+    <form class="" action="http://localhost:5000/Odyssee/search" method="get" >
 
-      <label>Budget :</label>
-      <input type="text" id="budget" name="budget">
+      <label for="budget">Budget :</label>
+      <input type="text" id="budget" name="budget" required min="0">
       <br /><br />
 
-      <label>Lieu de départ :</label>
-      <input type="text" id ="lieu" name='lieu'>
+      <label for="lieu">Lieu de départ :</label>
+      <input type="text" id ="lieu" name='lieu' required minlength="2">
       <br /><br />
 
-      <label>Date de départ :</label>
-      <input type="date" id="date_aller">
+      <label for="date_aller">Date de départ :</label>
+      <input type="date" name="date_aller" id="date_aller" required>
       <br /><br />
 
-      <label>Date de retour :</label>
-      <input type="date" id="date_retour">
+      <label for="date_retour">Date de retour :</label>
+      <input type="date" name="date_retour" id="date_retour" required>
       <br /><br />
 
       <input type="submit" name="" value="Rechercher">
     </form>
-    <script type="text/javascript" src="page_accueil.js"></script>
     <a href="Odyssee/advanced_search">Recherche avancée</a>
     <p>
       <a href="Odyssee/login_offreur">login vendeur</a>

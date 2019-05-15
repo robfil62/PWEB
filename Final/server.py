@@ -14,11 +14,14 @@ def page_accueil():
 @app.route('/Odyssee/search',methods=['GET'])
 def search():
     if request.method == 'GET':
-        data=prog.get_bd(request.args.get('budget','0'));
+        data=prog.get_bd(request.args.get('budget','0'),
+        request.args.get('lieu',''),
+        request.args.get('date_aller',''),
+        request.args.get('date_retour',''));
         if (data==[]):
             return render_template('no_results.html')
         else:
-            return render_template('results.html',data=data)
+            return render_template('results.html',liste_resultats=data)
 
 @app.route('/Odyssee/advanced_search')
 def advanced_search():
@@ -26,8 +29,7 @@ def advanced_search():
 
 @app.route('/Odyssee/login_offreur')
 def offre_log_page():
-    txt = 'Bonjour !'
-    return render_template('login.html', message=txt)
+    return render_template('login.html', message='Bonjour !')
 
 @app.route('/Odyssee/sign_up_offreur')
 def offre_reg_page():
@@ -36,10 +38,9 @@ def offre_reg_page():
 @app.route('/login',methods =['POST'])
 def verif():
     if(request.method=='POST'):
-        print(request.form['pseudo'],request.form['mdp']);
         nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp']);
         if (nom_vendeur!=-1):
-            return render_template('offre.html',nom_vendeur=nom_vendeur)
+            return render_template('offre.html',nom_vendeur=nom_vendeur,message="Bonjour "+nom_vendeur)
         else:
             return render_template('login.html',message="Problème d'authentification")
 
@@ -47,12 +48,25 @@ def verif():
 def register():
     if(request.method=='POST'):
         prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
-        return render_template('offre.html',nom_vendeur=request.form['pseudo']);
+        return render_template('offre.html',nom_vendeur=request.form['pseudo'],message="Bonjour");
 
 @app.route('/logout')
 def logout():
    session.clear()
    return redirect(url_for('page_accueil'))
+
+@app.route('/new_offer',methods=['POST'])
+def send_offer():
+    if(request.method=='POST'):
+        prog.new_offer_bd(request.form['destination'],
+        request.form['transport'],
+        request.form['depart'],
+        request.form['date'],
+        request.form['prix'],
+        request.form['lien'],
+        request.form['offreur']);
+
+    return render_template('offre.html',nom_vendeur=request.form['offreur'],message='Offre envoyée');
 
 if __name__=='__main__':
     app.run(debug=True)
