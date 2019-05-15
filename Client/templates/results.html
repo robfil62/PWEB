@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Résultats</title>
+    <h1>Odyssée</h1>
+    <h2>Résultats</h2>
+  </head>
+  <body>
+
+    <div>
+      <label>Destination</label>
+      {% for destination in ville %}
+      <p>{{destination}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>Compagnie</label>
+      {% for comp in compagnie %}
+      <p>{{comp}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>Moyen de transport</label>
+      {% for way in moyen %}
+      <p>{{way}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>Départ</label>
+      {% for start in depart %}
+      <p>{{start}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>Date</label>
+      {% for date in calendar %}
+      <p>{{date}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>prix</label>
+      {% for tarif in prix %}
+      <p>{{tarif}}</p>
+      {%endfor%}
+    </div>
+
+    <div>
+      <label>lien</label>
+      {% for link in lien %}
+      <p>{{link}}</p>
+      {%endfor%}
+    </div>
+    <a href="http://localhost:5000/Odyssee">Accueil</a>
+  </body>
+</html>
