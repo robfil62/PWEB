@@ -8,8 +8,11 @@
   </head>
   <body>
     <ul id="liste_resultats">
-      
+
     </ul>
+    {% for post in liste_resultats%}
+    <br>  {{post }}<br />
+    {%endfor%}
 
     <script src="results.js" charset="utf-8"></script>
   </body>
