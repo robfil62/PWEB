@@ -18,25 +18,22 @@ def search():
         request.args.get('lieu',''),
         request.args.get('date_aller',''),
         request.args.get('date_retour',''));
-        if (data==[]):
-            return render_template('no_results.html')
-        else:
-            ville = [];
-            compagnie = [];
-            moyen = [];
-            depart = [];
-            date = [];
-            prix=[];
-            lien=[];
-            for elem in data:
-                ville.append(elem[1]);
-                compagnie.append(elem[2]);
-                moyen.append(elem[3]);
-                depart.append(elem[4]);
-                date.append(elem[5]);
-                prix.append(elem[6]);
-                lien.append(elem[7]);
-            return render_template('results.html',ville=ville, compagnie=compagnie, moyen=moyen, depart=depart, calendar=date, lien=lien, prix=prix)
+        ville = [];
+        compagnie = [];
+        moyen = [];
+        depart = [];
+        date = [];
+        prix=[];
+        lien=[];
+        for elem in data:
+            ville.append(elem[1]);
+            compagnie.append(elem[2]);
+            moyen.append(elem[3]);
+            depart.append(elem[4]);
+            date.append(elem[5]);
+            prix.append(elem[6]);
+            lien.append(elem[7]);
+        return render_template('results.html',ville=ville, compagnie=compagnie, moyen=moyen, depart=depart, calendar=date, lien=lien, prix=prix)
 
 @app.route('/Odyssee/advanced_search')
 def advanced_search():
