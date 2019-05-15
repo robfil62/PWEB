@@ -1,35 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+<style>
+    .header{
+      background-color: rgba(0,175,20,0.3);
+      color:#f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      border-radius: 15px 50px;
+      font-family: "Courrier New", Times, serif;
+      padding:10px;
+      margin: 20px;
+      text-align: center;
+    }
+
+    .center{
+      margin: auto;
+      width: 60%;
+      padding: 10 px;
+      background-color:rgba(50,175,20,0.3);
+      text-align: center;
+      text-shadow: 2px 2px 4px #000000;
+      font-family: "Courrier New", Times, serif;
+      font-weight: bold;
+      color:#f2f2f2;
+    }
+    body{
+      background-color: #66CDAA;
+      background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+      background_size: cover;
+    }
+    div{
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    label{
+      display: block;
+      float: left;
+    }
+
+    inright{
+      diplay:block;
+      float: right;
+    }
+
+    a:link{
+      font-size: 15px;
+      color:white;
+    }
+    a:visited{
+      font-size: 15px;
+      color:darkblue;
+    }
+    a:hover{
+      font-size: 15px;
+      color:hotpink;
+    }
+    a:active{
+      font-size: 15px;
+      color:blue;
+    }
+    p{
+      font-size: 20px;
+    }
+</style>
   <head>
     <meta charset="utf-8">
     <title>Odyssée - sign up</title>
-    <h1>Odyssée</h1>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+    <h1>Odysée</h1>
     <h2>Sign up</h2>
-    <script type="text/javascript">
-    encryptage = function() {
-        var mdp = document.getElementById('mdp').value;
-        console.log('wesh');
-        mdp += 'a';
-        return mdp;
-      }
-    </script>
+    </div>
   </head>
   <body>
     <form class="" action="http://localhost:5000/sign_up" method="post">
+      <div>
+        <div class="center">
+
+      <label for="type">S'inscrire en tant que :</label>
+      <select class="" name="type">
+        <option value="vendeur">Vendeur</option>
+        <option value="client">Client</option>
+      </select>
+      <br /><br />
 
       <label for="pseudo">Entrez votre pseudo</label>
-      <input type="text" name="pseudo" id="pseudo" required minlength="2">
+      <inright><input type="text" name="pseudo" id="pseudo" required minlength="2"></inright>
       <br /><br />
 
       <label for="email">Entrez votre addresse email</label>
-      <input type="text" name="email" id="email" required minlength="2">
+      <inright><input type="text" name="email" id="email" required minlength="2"></inright>
       <br /><br />
 
       <label for="mdp">Entrez votre mot de passe</label>
-      <input type="password" name="mdp" id="mdp" required minlength="2">
+      <inright><input type="password" name="mdp" id="mdp" required minlength="2"></inright>
       <br /><br />
 
       <button type="submit" name="sign_up">Sign up</button>
-      <!--onclick="document.getElementById('mdp').value = encryptage(document.getElementById('mdp').value)"-->
+      </div>
+      <a href="http://localhost:5000/Odyssee">Accueil</a>
+    </div>
   </body>
 </html>

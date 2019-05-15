@@ -66,26 +66,18 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Odyssée - login</title>
+    <title>Odyssée - login admin</title>
     <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
     <div class="header">
     <h1>Odyssée</h1>
-    <h2>Login</h2>
+    <h2>Login admin</h2>
     </div>
   </head>
   <body>
     <div>
     <div class="center">
 
-    <p> {{message}} </p>
-    <form class="" action="http://localhost:5000/login" method="post">
-
-      <label for="type">Se connecter en tant que </label>
-      <select class="" name="type">
-        <option value="vendeur">Vendeur</option>
-        <option value="client">Client</option>
-      </select>
-      <br /><br />
+    <form class="" action="http://localhost:5000/log_adm" method="post">
 
       <label for="pseudo">Entrez votre pseudo</label>
       <inright><input type="text" name="pseudo" id="pseudo" required minlength="2" ></inright>
@@ -100,7 +92,6 @@
     </form>
     </div>
     <a href="http://localhost:5000/Odyssee">Accueil</a>
-    <a href="http://localhost:5000/Odyssee/sign_up_offreur">Sign Up</a>
 
 </div>
   </body>
