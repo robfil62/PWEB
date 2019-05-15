@@ -1,0 +1,4 @@
+SELECT *
+FROM Offre
+WHERE strftime('%m',date_offre) == '06';
+/* %m mois et %d pour le jour */
