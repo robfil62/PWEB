@@ -1,110 +1,183 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  <style>
+<style>
+
   .header{
-    background-color: rgba(0,175,20,0.3);
     color:#f2f2f2;
     text-shadow: 2px 2px 4px #000000;
     border-radius: 15px 50px;
     font-family: "Courrier New", Times, serif;
+    font-size: 60px;
     padding:10px;
     margin: 20px;
     text-align: center;
   }
-
   .center{
     margin: auto;
-    width: 50%;
+    width: 80%;
+    height:800px;
     padding: 10 px;
     text-align: center;
-    background-color:rgba(50,175,20,0.3);
-    font-family: "Palatino Linotype", Palatino, serif;
+    text-shadow: 2px 2px 4px #000000;
+    font-family: "Courrier New", Times, serif;
+    font-weight: bold;
+    font-size: 26px;
+    color:#f2f2f2;
   }
 
-  input[type=text],select{
-    width:100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
+  label{
+    display: block;
+    float: left;
   }
 
-  input[type=submit]{
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor:pointer;
+  inright{
+    diplay:block;
+    float: right;
   }
 
-  input[type=submit]:hover{
-    background-color: #45a049;
+  a:link{
+    font-size: 15px;
+    color:white;
+  }
+  a:visited{
+    font-size: 15px;
+    color:darkblue;
+  }
+  a:hover{
+    font-size: 15px;
+    color:hotpink;
+  }
+  a:active{
+    font-size: 15px;
+    color:blue;
   }
 
-  div{
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
+#bckg {
+  width:device-width;
+  height: device-height;
+  animation-name: fade;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  -webkit-animation--name:fade;
+  -webkit-animation-duration:30s;
+  -webkit-animation-iteration-count: infinite;
+}
+
+  @-webkit-keyframes fade{
+    0%{
+      background-image: url(static/images/bahamas.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    12.5%{
+      background-image: url(static/images/marseille.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    25%{
+      background-image: url(static/images/lisbonne.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    37.5{
+      background-image: url(static/images/montagne.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    50%{
+      background-image: url(static/images/newyork.jpg);
+      background-size:cover;
+      width:device-width;
+      height: device-height;
+      overflow:hidden;
+    }
+
+    62.5%{
+      background-image: url(static/images/russie.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    75%{
+      background-image: url(static/images/riziere.jpg);
+      background-size:cover;
+      width:device-width;
+      height: device-height;
+      overflow:hidden;
+    }
+
+    87.5%{
+      background-image: url(static/images/inde.jpg);
+      background-size:cover;
+      width:device-width;
+      height:device-height;
+      overflow:hidden;
+    }
+
+    100%{
+      background-image: url(static/images/tok.jpg);
+      background-size:cover;
+      width:device-width;
+      height: device-height;
+      overflow:hidden;cover
+    }
   }
+</style>
+<div id="bckg">
+<head>
+  <meta charset="utf-8" />
+  <title>Odyssée</title>
+  <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+  <div class="header">
+  <h1>Odyssée</h1>
+  </div>
+</head>
+<body>
 
-  body{
-    background-color: #66CDAA;
-    background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
-  }
+  <form class="" action="http://localhost:5000/Odyssee/search" method="get">
+    <div class="center">
 
-    background:url(static/logo_Ody.png)no-repeat center fixed;
-    background-size: cover;
-
-  #logo{
-    width: 150px;
-    height: 150px;
-    background-image: url(/static/logo_Ody.png) -1500px 50;
-  }
-  </style>
-
-    <meta charset="utf-8" />
-    <title>Odyssée</title>
-    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
-    <div class="header">
-      <h1>Odyssée</h1>
-    </div>
-  </head>
-
-  <body>
-  <div>
-    <form class="" action="http://localhost:5000/Odyssee/search" method="get">
-      <div class="center">
       <label for="budget">Budget :</label>
-      <input type="number" id="budget" name="budget" required min="0">
+    <inright>  <input type="number" id="budget" name="budget" required min="0"></inright>
       <br /><br />
 
       <label for="lieu">Lieu de départ :</label>
-      <input type="text" id ="lieu" name="lieu" required minlength="2">
+      <inright> <input type="text" id ="lieu" name='lieu' required minlength="2"></inright>
       <br /><br />
 
       <label for="date_aller">Date de départ :</label>
-      <input type="date" id="date_aller" name="date_aller" required>
+    <inright>  <input type="date" id="date_aller" name="date_aller" required></inright>
       <br /><br />
 
       <label for="date_retour">Date de retour :</label>
-      <input type="date" id="date_retour" name="date_retour" required>
+    <inright>  <input type="date" id="date_retour" name="date_retour" required></inright>
       <br /><br />
 
       <input type="submit" name="" value="Rechercher">
-    </form>
-    <script type="text/javascript" src="page_accueil.js"></script>
-    <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
-    <a href="http://localhost:5000/Odyssee/login_offreur">Vendeur login</a>
-    <a href="http://localhost:5000/Odyssee/sign_up_offreur">Vendeur register</a>
+      <br/><br/>
+  </form>
 
+      <script type="text/javascript" src="page_accueil.js"></script>
+      <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
+      <a href="http://localhost:5000/Odyssee/login_offreur">Vendeur login</a>
+      <a href="http://localhost:5000/Odyssee/sign_up_offreur">Vendeur register</a>
     </div>
-  </div>
-  <img id="home" src="/static/logo_Ody.png" width="1" height="1"><br><br>
+    <img  id="home" src="/static/logo_Ody.png" width="1" height="1"><br><br>
+
   </body>
+</div>
 </html>
