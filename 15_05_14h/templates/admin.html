@@ -65,50 +65,20 @@
 </style>
   <head>
     <meta charset="utf-8">
-    <title>Odyssée - Ajouter offre</title>
+    <title>Odyssée - Gérer offre </title>
     <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
     <div class="header">
-    <h1>Ajout d'offre</h1>
+    <h1>Gestion d'offre et vendeur</h1>
   </div>
   </head>
   <body>
     <div>
       <div class="center">
-    <p>{{message}}<p/>
+
     <p>
       <a href="/logout">[logout]</a>
     </p>
-    <p>Veuillez renseigner les champs ci-dessous pour ajouter votre offre</p>
 
-    <form class="" action="http://localhost:5000/new_offer" method="post">
-
-      <label for="destination">Destination</label>
-      <inright><input type="text" name="destination" id="destination" required minlength="2"></inright>
-      <br /><br />
-
-      <label for="transport">Moyen de transport</label>
-      <inright><input type="text" name="transport" id="transport" required minlength="2"></inright>
-      <br><br>
-
-      <label for="depart">Ville de départ</label>
-      <inright><input type="text" name="depart" id="depart" required minlength="2"></inright>
-      <br><br>
-
-      <label for="date">Date</label>
-      <inright><input type="date" name="date" id="date"></inright>
-      <br><br>
-
-      <label for="prix">Prix</label>
-      <inright><input type="number" name="prix" id=prix required min="0"></inright>
-      <br><br>
-
-      <label for="lien">Lien vers le site de l'offre</label>
-      <inright><input type="text" name="lien" id="lien" required minlength="1" pattern="https?://.+"></inright>
-      <br><br>
-
-      <button type="submit" name="offrir">Envoyer l'offre</button>
-    </div>
-  </div>
-    </form>
+    
   </body>
 </html>

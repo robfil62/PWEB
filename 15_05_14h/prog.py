@@ -43,7 +43,6 @@ def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme)
         return data_adv
 
     connection.close()
-
 def verif_login_bd(pseudo, mdp):
     data=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
@@ -100,5 +99,40 @@ def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):
                 return "Erreur dans l'offre"
 
     connection.execute("insert into Offre (ville, nom_vendeur, moyen_transport, ville_depart,date_offre,prix_offre,site) values (?,?,?,?,?,?,?)", destination,offreur,transport,depart,date,prix,lien)
+    connection.execute("insert into Destination (ville, pays, environnement, urbanisme) values (?,"","","")", destination)
+    connection.execute("insert into Meteo (ville, date_debut, date_fin,meteo) values (?,"","","")", destination)
+
     connection.close()
     return "Offre ajoutée"
+
+def get_new_dest():
+    villes=[]
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    for row in connction.execute("select * from Destination where (Destination.pays=="")"):
+        villes.append(row)
+
+    connection.close()
+    return villes
+
+def get_new_met():
+    villes=[]
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    for row in connction.execute("select * from Meteo where (Meteo.date_debut=="")"):
+        villes.append(row)
+
+    connection.close()
+    return villes
+
+def update_new_dest(ville,pays,environnement,urbanisme):
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.execute("update into Destination (ville,pays,environnement,urbanisme) values (?,?,?,?)", ville,pays,environnement,urbanisme)
+    connection.close()
+
+def update_new_met(ville,date_debut,date_fin,meteo):
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.execute("update into Meteo (ville,date_debut,date_fin,meteo) values (?,?,?,?)", ville,date_debut,date_fin,meteo)
+    connection.close()
