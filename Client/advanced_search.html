@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+  <style>
+  .header{
+    background-color: rgba(0,175,20,0.3);
+    color:#f2f2f2;
+    text-shadow: 2px 2px 4px #000000;
+    border-radius: 15px 50px;
+    font-family: "Courrier New", Times, serif;
+    padding:10px;
+    margin: 20px;
+    text-align: center;
+  }
+  .center{
+    margin: auto;
+    width: 50%;
+    padding: 10 px;
+    text-align: center;
+    background-color:rgba(50,175,20,0.3);
+    font-family: "Palatino Linotype", Palatino, serif;
+  }
+  input[type=text],select{
+  width:100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+input[type=submit]{
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor:pointer;
+}
+
+input[type=submit]:hover{
+  background-color: #45a049;
+}
+
+div{
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+body{
+  background-color: #66CDAA;
+  background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+}
+
+#logo{
+  width: 150px;
+  height: 150px;
+  background-image: url(/static/logo_Ody.png) -1500px 50;
+}
+  </style>
+    <meta charset="utf-8">
+    <title>Odyssée - Recherche avancée</title>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+    <h1>Odyssée</h1>
+    <h2>Recherche avancée</h2>
+  </div>
+  </head>
+  <body>
+    <div>
+    <form class="" action="http://localhost:5000/Odysee/advanced_search" method="get">
+      <div class="center">
+      <label for="budget">Budget :</label>
+      <input type="number" id="budget" name="budget" required min="0">
+      <br /><br />
+
+      <label for="lieu">Lieu de départ :</label>
+      <input type="text" id ="lieu" name='lieu' required minlength="2">
+      <br /><br />
+
+      <label for="date_aller">Date de départ :</label>
+      <input type="date" id="date_aller" name="date_aller" required>
+      <br /><br />
+
+      <label for="date_retour">Date de retour :</label>
+      <input type="date" id="date_retour" name="date_retour" required>
+      <br /><br />
+
+      <label for="meteo">Climat</label>
+      <select class="" name="meteo">
+        <option value="neige">Enneigé</option>
+        <option value="froid">Froid</option>
+        <option value="pluie">Pluvieux</option>
+        <option value="tempere">Tempéré</option>
+        <option value="soleil">Ensoleillé</option>
+        <option value="grande chaleur">Grande chaleur</option>
+      </select>
+      <br><br>
+
+      <label for="environnement">Type d'environnement</label>
+      <select class="" name="environnement">
+        <option value="jungle">Jungle</option>
+        <option value="foret">Forêt</option>
+        <option value="montagne">Montagne</option>
+        <option value="mer">Mer</option>
+        <option value="ocean">Océan</option>
+        <option value="desert">Désert</option>
+        <option value="plaine">Plaine</option>
+      </select>
+      <br><br>
+
+      <label for="urbanisme">Urbanisme</label>
+      <select class="" name="urbanisme">
+        <option value="metropole">Métropole</option>
+        <option value="ville">Ville</option>
+        <option value="village">Village</option>
+        <option value="nature">Nature</option>
+      </select>
+      <br><br>
+
+      <input type="submit" name="" value="Rechercher">
+    </div>
+    </form>
+
+    <a href="http://localhost:5000/Odyssee">Acceuil</a>
+  </body>
+</html>

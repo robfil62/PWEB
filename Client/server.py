@@ -47,12 +47,24 @@ def offre_log_page():
 def offre_reg_page():
     return render_template('sign_up.html')
 
+@app.route('/Odyssee/offer')
+def offrir():
+    try:
+        if(session['logged'] == True):
+            return render_template('offre.html',nom_vendeur=session['username'],message="Bonjour "+session['username']);
+        else:
+            return redirect(url_for('page_accueil'))
+    except:
+        return redirect(url_for('offre_log_page'))
+
 @app.route('/login',methods =['POST'])
 def verif():
     if(request.method=='POST'):
         nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp']);
         if (nom_vendeur!=-1):
-            return render_template('offre.html',nom_vendeur=nom_vendeur,message="Bonjour "+nom_vendeur)
+            session['username'] = nom_vendeur
+            session['logged'] = True
+            return redirect(url_for('offrir'))
         else:
             return render_template('login.html',message="Problème d'authentification")
 
@@ -60,7 +72,11 @@ def verif():
 def register():
     if(request.method=='POST'):
         prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
-        return render_template('offre.html',nom_vendeur=request.form['pseudo'],message="Bonjour");
+        session['username'] = request.form['pseudo']
+        session['logged'] = True
+        return redirect(url_for('offrir'))
+    else:
+        return render_template('sign_up.html')
 
 @app.route('/logout')
 def logout():
@@ -76,9 +92,9 @@ def send_offer():
         request.form['date'],
         request.form['prix'],
         request.form['lien'],
-        request.form['offreur']);
+        session['username']);
 
-    return render_template('offre.html',nom_vendeur=request.form['offreur'],message='Offre envoyée');
+    return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
 
 if __name__=='__main__':
     app.run(debug=True)

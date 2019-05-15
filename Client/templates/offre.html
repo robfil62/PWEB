@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Odyssée - Ajouter offre</title>
-    <h1>Ajout d'offre</h1>
+    <h1>Odyssée</h1>
+    <h2>{{message}}</h2>
+    <h3>Ajout d'offre</h3>
   </head>
   <body>
     <p>Veuillez renseigner les champs ci-dessous pour ajouter votre offre</p>
 
-    <form class="" action="http://localhost:5000/" method="post">
+    <form class="" action="http://localhost:5000/new_offer" method="post">
 
       <label for="destination">Destination</label>
       <input type="text" name="destination" id="destination" required minlength="2">
@@ -31,14 +33,11 @@
       <br><br>
 
       <label for="lien">Lien vers le site de l'offre</label>
-      <input type="text" name="lien" id="lien" required minlength="1">
-      <br><br>
-
-      <label for="offreur">Votre identifiant</label> <!--Pour l'instant l'offreur doit rentrer son nom, l'ideal serait de le récuperer des cookies de connection mais je dois trouver un moyen d'ajouter un paramètre à un formulaire sans qu'il ne demande d'input-->
-      <input type="text" name="offreur" id="offreur" required minlength="1">
+      <input type="text" name="lien" id="lien" required minlength="1" pattern="https?://.+">
       <br><br>
 
       <button type="submit" name="offrir">Envoyer l'offre</button>
+      <a href="http://localhost:5000/logout">Se déconnecter</a>
 
     </form>
 
