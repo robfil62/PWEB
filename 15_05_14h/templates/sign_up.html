@@ -73,9 +73,20 @@
     </div>
   </head>
   <body>
+    <div>
+      <div class="center">
+
+
     <form class="" action="http://localhost:5000/sign_up" method="post">
-      <div>
-        <div class="center">
+
+        <label for="type">S'enregistrer en tant que </label>
+        <select class="" name="type">
+          <option value="client">Client</option>
+          <option value="vendeur">Vendeur</option>
+        </select>
+        <br /><br />
+
+
       <label for="pseudo">Entrez votre pseudo</label>
       <inright><input type="text" name="pseudo" id="pseudo" required minlength="2"></inright>
       <br /><br />
@@ -89,6 +100,8 @@
       <br /><br />
 
       <button type="submit" name="sign_up">Sign up</button>
+    </form>
+
       </div>
       <a href="http://localhost:5000/Odyssee">Accueil</a>
     </div>

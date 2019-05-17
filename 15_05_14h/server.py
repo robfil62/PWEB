@@ -7,11 +7,14 @@ app = Flask(__name__)
 data=[]
 app.secret_key="auhasard"
 
-@app.route('/Odyssee')
+@app.route('/Odyssee')  #Page d'accueil
 def page_accueil():
-    return render_template('page_accueil.html')
+    try :
+        return render_template('page_accueil.html', logged=session['logged'])
+    except:
+        return render_template('page_accueil.html', logged=False)
 
-@app.route('/Odyssee/search',methods=['GET'])
+@app.route('/Odyssee/search',methods=['GET'])   #Affichage des résultats
 def search():
     if request.method == 'GET':
         data=prog.get_bd(request.args.get('budget'),
@@ -21,7 +24,11 @@ def search():
 
         return render_template('results.html',liste=data)
 
-@app.route('/Odyssee/adv_search',methods=['GET'])
+@app.route('/Odyssee/advanced_search_page') #Affichage de la page recherches avancées
+def advanced_search_page():
+    return render_template('advanced_search.html')
+
+@app.route('/Odyssee/adv_search',methods=['GET'])   #Affichage des résultats avancés
 def adv_search():
     if request.method == 'GET':
         data=prog.get_adv_bd(request.args.get('budget'),
@@ -31,101 +38,90 @@ def adv_search():
         request.args.get('meteo'),
         request.args.get('environnement'),
         request.args.get('urbanisme'));
-        ville = [];
-        compagnie = [];
-        moyen = [];
-        depart = [];
-        date = [];
-        prix=[];
-        lien=[];
-        for elem in data:
-            ville.append(elem[1]);
-            compagnie.append(elem[2]);
-            moyen.append(elem[3]);
-            depart.append(elem[4]);
-            date.append(elem[5]);
-            prix.append(elem[6]);
-            lien.append(elem[7]);
 
-        return render_template('results.html',ville=ville, compagnie=compagnie, moyen=moyen, depart=depart, calendar=date, lien=lien, prix=prix)
+        return render_template('results.html',liste=data[0], message=data[1])
 
-@app.route('/Odyssee/advanced_search')
-def advanced_search():
-    return render_template('advanced_search.html')
 
-@app.route('/Odyssee/login_offreur')
-def offre_log_page():
+@app.route('/Odyssee/login_page')   #Affichage de la page login
+def log_page():
     return render_template('login.html', message='Bonjour !')
 
-@app.route('/Odyssee/login_admin')
-def admin_log_page():
-    return render_template('login_admin.html', message='Bonjour !')
+@app.route('/login',methods =['POST'])  #Gère les login clients, vendeurs et admin
+def verif():
+    if(request.method=='POST'):
+        if (request.form['type'] == 'vendeur'):
+            nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp'],'vendeur');
+            if (nom_vendeur!=-1):
+                session['username'] = nom_vendeur
+                session['logged'] = True
+                session['type'] = True
+                return redirect(url_for('offrir'))
+            else:
+                return render_template('login.html',message="Problème d'authentification")
 
+        if (request.form['type'] =='client'):
+            nom_client=prog.verif_login_bd(request.form['pseudo'],request.form['mdp'],'client');
+            if (nom_client!=-1):
+                session['username'] = nom_client
+                session['logged'] = True
+                session['type'] = False
+                return redirect(url_for('enregistrer'))
+            else:
+                return render_template('login.html',message="Problème d'authentification")
 
-@app.route('/Odyssee/sign_up_offreur')
+        if(request.form['type']=='admin'):
+            nom_admin=prog.verif_login_bd(request.form['pseudo'],request.form['mdp'],'admin');
+            print(nom_admin)
+            if (nom_admin=='ADMIN'):
+                session['username'] = 'Admin'
+                session['logged'] = True
+                session['type'] = True
+                print("gérer")
+                return redirect(url_for('gerer'))
+            else:
+                return render_template('login.html',message="Problème d'authentification")
+
+@app.route('/Odyssee/sign_up_page') #Affichage de la page sign_up
 def offre_reg_page():
     return render_template('sign_up.html')
 
-@app.route('/Odyssee/offer')
+@app.route('/sign_up',methods =['POST'])    #Gère les sign_up
+def register():
+    if(request.method=='POST'):
+        print("coucou post")
+        if(request.form['type']=="vendeur"):
+            print("coucou vendeur")
+            prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
+            session['username'] = request.form['pseudo']
+            session['logged'] = True
+            session['type'] = True
+            return redirect(url_for('offrir'))
+        else:
+            print("pb vendeur")
+            return render_template('sign_up.html')
+
+        if(request.form['type']=="client"):
+            prog.regist_client_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
+            session['username'] = request.form['pseudo']
+            session['logged'] = True
+            session['type'] = False
+            print("new client")
+            return redirect(url_for('enregistrer'))
+        else:
+            print("pb client")
+            return render_template('sign_up.html')
+
+@app.route('/Odyssee/offer')    #Affichage page vendeur pour nouvelles offres
 def offrir():
     try:
-        if(session['logged'] == True):
+        if(session['logged'] == True and session['type']==True):
             return render_template('offre.html',nom_vendeur=session['username'],message="Bonjour "+session['username']);
         else:
             return redirect(url_for('page_accueil'))
     except:
-        return redirect(url_for('offre_log_page'))
+        return redirect(url_for('log_page'))
 
-@app.route('/login',methods =['POST'])
-def verif():
-    if(request.method=='POST'):
-        nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp']);
-        if (nom_vendeur!=-1):
-            session['username'] = nom_vendeur
-            session['logged'] = True
-            return redirect(url_for('offrir'))
-        else:
-            return render_template('login.html',message="Problème d'authentification")
-
-@app.route('/log_adm',methods =['POST'])
-def verif_adm():
-    if(request.method=='POST'):
-        nom=prog.verif_login_bd(request.form['pseudo'],request.form['mdp']);
-        if (nom!=-1):
-            session['username'] = nom
-            session['logged'] = True
-            return redirect(url_for('gerer'))
-        else:
-            return render_template('login.html',message="Problème d'authentification")
-
-@app.route('/Odyssee/admin')
-def gerer():
-    try:
-        if(session['logged'] == True):
-            return render_template('admin.html')
-        else:
-            return redirect(url_for('page_accueil'))
-    except:
-        return redirect(url_for('admin_log_page'))
-
-
-@app.route('/sign_up',methods =['POST'])
-def register():
-    if(request.method=='POST'):
-        prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
-        session['username'] = request.form['pseudo']
-        session['logged'] = True
-        return redirect(url_for('offrir'))
-    else:
-        return render_template('sign_up.html')
-
-@app.route('/logout')
-def logout():
-   session.clear()
-   return redirect(url_for('page_accueil'))
-
-
-@app.route('/new_offer',methods=['POST'])
+@app.route('/new_offer',methods=['POST'])   #Gère les nouvelles offres
 def send_offer():
     if(request.method=='POST'):
         prog.new_offer_bd(request.form['destination'],
@@ -138,7 +134,31 @@ def send_offer():
 
     return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
 
+@app.route('/Odyssee/admin')    #Affichage page admin
+def gerer():
+    try:
+        if(session['logged'] == True and session['username']== 'Admin'):
+            liste_new=prog.get_new()
+            return render_template('admin.html',liste=liste_new)
+        else:
+            return redirect(url_for('page_accueil'))
+    except:
+        return redirect(url_for('log_page'))
 
+@app.route('/Odyssee/client')    #Affichage page client
+def enregistrer():
+    try:
+        if(session['logged'] == True or session['username']== 'Admin'):
+            return render_template('client.html')
+        else:
+            return redirect(url_for('page_accueil'))
+    except:
+        return redirect(url_for('log_page'))
+
+@app.route('/logout')   #Logout session
+def logout():
+   session.clear()
+   return redirect(url_for('page_accueil'))
 
 if __name__=='__main__':
     app.run(debug=True)

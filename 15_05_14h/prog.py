@@ -5,50 +5,65 @@ import requests
 
 
 def get_bd(budget,lieu,date_depart,date_retour):
-    data=[]
+    res=[]
+    retours=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
 
     for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
-        data.append(row)
+        res.append(row)
 
-    for destination in data:
-        print(destination[1])
-        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[1],lieu):
-            data.append(row)
-            print(row)
+    for destination in res:
+        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[0],lieu):
+            retours.append(row)
+
+    for retour in retours:
+        res.append(retour)
 
     connection.close()
-    return data
+    return res
 
 
 def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme):
-    data=[]
-    data_adv=[]
+    res=[]
+    res_adv=[]
+    retours=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
 
-    for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre as o, Destination as d, Meteo as m where (o.prix_offre <= ?) and (o.ville_depart == ?) and (o.date_offre >= ?) and (d.ville==o.ville) and (d.environnement==?) and (d.urbanisme==?) and (o.ville==m.ville) and (m.meteo==?) and (m.date_debut>=?) and (m.date_fin<=?)",budget,lieu,date_aller, environnement, urbanisme,meteo, date_aller, date_aller):
-        data.append(row)
+    for row in connection.execute("select o.ville, o.nom_vendeur, o.moyen_transport, o.ville_depart, o.date_offre, o.prix_offre, o.site from Offre as o, Destination as d, Meteo as m where (o.prix_offre <= ?) and (o.ville_depart == ?) and (o.date_offre >= ?) and (d.ville==o.ville) and (d.environnement==?) and (d.urbanisme==?) and (o.ville==m.ville) and (m.meteo==?) and (m.date_debut>=?) and (m.date_fin<=?)",budget,lieu,date_aller, environnement, urbanisme,meteo, date_aller, date_aller):
+        res_adv.append(row)
 
-    for recherches in data:
+    for recherches in res_adv:
         ville=recherches[1]
-        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre as o, Destination as d, Meteo as m where (d.ville==?) and (m.ville== ?) and (d.environnement==?) and (d.urbanisme==?) and (m.meteo==?) and (m.date_debut>=?) and (m.date_fin<=?)",ville, ville,environnement,urbanisme,meteo,date_aller,date_retour):
-            data_adv.append(row)
+        for row in connection.execute("select o.ville, o.nom_vendeur, o.moyen_transport, o.ville_depart, o.date_offre, o.prix_offre, o.site from offre as o, Destination as d, Meteo as m where (d.ville==?) and (m.ville== ?) and (d.environnement==?) and (d.urbanisme==?) and (m.meteo==?) and (m.date_debut>=?) and (m.date_fin<=?)",ville, ville,environnement,urbanisme,meteo,date_aller,date_retour):
+            retours.append(row)
 
-    if data_adv==[]:
-        return data
+    for retour in retours:
+        res_adv.append(retour)
+
+    if res_adv==[]:
+        return [get_bd(budget,lieu,date_aller,date_retour),"Nous ne trouvons aucune offre qui corresponde parfaitement à votre demande"]
 
     else:
-        return data_adv
+        return [res_adv,"Votre recherche a abouti"]
 
     connection.close()
-def verif_login_bd(pseudo, mdp):
+def verif_login_bd(pseudo, mdp, type):
     data=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
-    for row in connection.execute("select * from Vendeur where (nom_vendeur = ?) and (mdp = ?)",pseudo,mdp):
-        data.append(row)
+    if type=='client':
+        for row in connection.execute("select * from Client where (pseudo_client = ?) and (mdp = ?)",pseudo,mdp):
+            data.append(row)
+
+    if type=='vendeur':
+        for row in connection.execute("select * from Vendeur where (nom_vendeur = ?) and (mdp = ?) and (validation==1)",pseudo,mdp):
+            data.append(row)
+
+    if type=='admin':
+        for row in connection.execute("select * from Vendeur where (nom_vendeur = ?) and (mdp = ?) ",pseudo,mdp):
+            data.append(row)
 
     connection.close()
     if (len(data)!=1):
@@ -63,8 +78,16 @@ def regist_vendeur_bd(nom_vendeur, email, mdp):
     connection.execute("insert into Vendeur (nom_vendeur,email,mdp) values (?,?,?)", nom_vendeur,email,mdp)
     connection.close()
 
+def regist_client_bd(nom_client, email, mdp):
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.execute("insert into Client (pseudo_client,email,mdp) values (?,?,?)", nom_client,email,mdp)
+    print("client add")
+    connection.close()
+
 def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):
     data=[]
+    dest=[]
     prix=float(prix)
     offer=[destination,offreur,transport,depart,date,prix,lien]
 
@@ -85,42 +108,33 @@ def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):
 
     for i in range (0,len(data)):
         C=0
-        print(data[i])
-        print("offre",offer)
         for k in range(1,8):
-            print(data[i][k])
-            print("offer ", offer[k-1])
             if data[i][k]==offer[k-1]:
-                print("pzreil")
                 C+=1
 
             if C==7:
                 connection.close()
                 return "Erreur dans l'offre"
 
-    connection.execute("insert into Offre (ville, nom_vendeur, moyen_transport, ville_depart,date_offre,prix_offre,site) values (?,?,?,?,?,?,?)", destination,offreur,transport,depart,date,prix,lien)
-    connection.execute("insert into Destination (ville, pays, environnement, urbanisme) values (?,"","","")", destination)
-    connection.execute("insert into Meteo (ville, date_debut, date_fin,meteo) values (?,"","","")", destination)
+    connection.execute("insert into Offre (ville, nom_vendeur, moyen_transport, ville_depart,date_offre,prix_offre,site,validation) values (?,?,?,?,?,?,?,1)", destination,offreur,transport,depart,date,prix,lien)
+
+    for row in connection.execute("select * from Destination where (ville==?)",destination):
+        dest.append(row)
+
+    if dest==[]:
+        connection.execute("insert into Destination (ville, pays, environnement, urbanisme) values (?,NULL,NULL,NULL)",destination)
+        connection.execute("insert into Meteo (ville, date_debut, date_fin,meteo) values (?,NULL,NULL,NULL)", destination)
 
     connection.close()
     return "Offre ajoutée"
 
-def get_new_dest():
+def get_new():
     villes=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
-    for row in connction.execute("select * from Destination where (Destination.pays=="")"):
+    for row in connection.execute("select d.ville, d.pays, d.environnement, d.urbanisme, m.date_debut, m.date_fin, m.meteo from Destination as d, Meteo as m where (d.pays is NULL) and (d.ville==m.ville) order by d.ville"):
         villes.append(row)
-
-    connection.close()
-    return villes
-
-def get_new_met():
-    villes=[]
-    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
-    connection = engine.connect()
-    for row in connction.execute("select * from Meteo where (Meteo.date_debut=="")"):
-        villes.append(row)
+        print(row)
 
     connection.close()
     return villes

@@ -180,10 +180,15 @@
   </form>
 
       <script type="text/javascript" src="page_accueil.js"></script>
-      <a href="http://localhost:5000/Odyssee/advanced_search">Recherche avancée</a>
-      <a href="http://localhost:5000/Odyssee/login_offreur">Vendeur login</a>
-      <a href="http://localhost:5000/Odyssee/sign_up_offreur">Vendeur register</a>
-      <a href="http://localhost:5000/Odyssee/login_admin">Admin login</a>
+      <a href="http://localhost:5000/Odyssee/advanced_search_page">Recherche avancée</a>
+      <a href="http://localhost:5000/Odyssee/client">Espace client</a>
+      <a href="http://localhost:5000/Odyssee/offer">Soumettre une offre</a>
+      {% if logged == False %}
+        <a href="http://localhost:5000/Odyssee/sign_up_page">Register</a>
+      {% else %}
+        <a href="http://localhost:5000/logout">Logout</a>
+      {% endif %}
+      <a href="http://localhost:5000/Odyssee/admin">Admin login</a>
 
     </div>
     <img  id="home" src="/static/logo_Ody.png" width="1" height="1"><br><br>

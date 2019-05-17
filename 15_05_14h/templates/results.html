@@ -52,6 +52,9 @@
   <body>
     <div>
     <div class="center">
+      {%if message%}
+        {{message}}
+      {%endif%}
     {% if liste!=[] %}
       <table>
         <thead>
@@ -73,6 +76,7 @@
 
               <td>{{data_2}}</td>
               {%endfor%}
+              
             {%endfor%}
           </tr>
         </tbody>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <style>
@@ -11,7 +12,6 @@
       margin: 20px;
       text-align: center;
     }
-
     .center{
       margin: auto;
       width: 60%;
@@ -37,12 +37,10 @@
       display: block;
       float: left;
     }
-
     inright{
       diplay:block;
       float: right;
     }
-
     a:link{
       font-size: 15px;
       color:white;
@@ -80,6 +78,14 @@
     <p> {{message}} </p>
     <form class="" action="http://localhost:5000/login" method="post">
 
+      <label for="type">Se connecter en tant que </label>
+      <select class="" name="type">
+        <option value="vendeur">Vendeur</option>
+        <option value="client">Client</option>
+        <option value="admin">Admin</option>
+      </select>
+      <br /><br />
+
       <label for="pseudo">Entrez votre pseudo</label>
       <inright><input type="text" name="pseudo" id="pseudo" required minlength="2" ></inright>
       <br /><br />
@@ -93,6 +99,7 @@
     </form>
     </div>
     <a href="http://localhost:5000/Odyssee">Accueil</a>
+    <a href="http://localhost:5000/Odyssee/sign_up_page">Sign Up</a>
 
 </div>
   </body>
