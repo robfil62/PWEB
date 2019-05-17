@@ -157,7 +157,11 @@
 <body>
 
   <form class="" action="http://localhost:5000/Odyssee/search" method="get">
+    {%if message%}
+      {{message}}
+    {%endif%}
     <div class="center">
+
 
       <label for="budget">Budget :</label>
     <inright>  <input type="number" id="budget" name="budget" required min="0"></inright>
@@ -179,7 +183,6 @@
       <br/><br/>
   </form>
 
-      <script type="text/javascript" src="page_accueil.js"></script>
       <a href="http://localhost:5000/Odyssee/advanced_search_page">Recherche avancée</a>
       <a href="http://localhost:5000/Odyssee/client">Espace client</a>
       <a href="http://localhost:5000/Odyssee/offer">Soumettre une offre</a>

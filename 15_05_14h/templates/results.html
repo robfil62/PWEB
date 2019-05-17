@@ -48,13 +48,11 @@
     <h1>Odyssée</h1>
     <h2>Résultats</h2>
   </div>
+
   </head>
   <body>
     <div>
     <div class="center">
-      {%if message%}
-        {{message}}
-      {%endif%}
     {% if liste!=[] %}
       <table>
         <thead>
@@ -70,13 +68,18 @@
       </thead>
 
       <tbody>
+        {%if message %}
+          {{message}}
+        {%endif%}
           {% for data in liste%}
           <tr>
-            {% for data_2 in data %}
+            {% for i in range(7) %}
 
-              <td>{{data_2}}</td>
+              <td>{{data[i]}}</td>
               {%endfor%}
-              
+            {%if logged == True%}
+              <button type="button", id={{data[7]}} , name="button">Ajouter à ma liste</button>
+              {%endif%}
             {%endfor%}
           </tr>
         </tbody>
@@ -86,6 +89,20 @@
 
 
     </div>
+    <script type="text/javascript">
+      ajouter_liste = function(num) {
+        console.log(num);
+        var xhr = new XMLHttpRequest();
+        var offre = encodeURIComponent(num);
+        xhr.open('POST', 'http://localhost:5000/Odyssee/ajouter_liste');
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send('id_offre='+num);
+      }
+      var btn = document.getElementsByName("button");
+      for(var i = 0; i < btn.length; i++) {
+        btn[i].addEventListener('click', function() {ajouter_liste(this.getAttribute('id'))});
+      }
+    </script>
     {%else%}
       <p>Pas de résultats</p>
     {%endif%}

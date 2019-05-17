@@ -73,7 +73,7 @@
   </head>
   <body>
       <div class="center">
-        <table>
+        <!-- <table>
           <thead>
             <tr>
             <th>Ville</th>
@@ -83,11 +83,23 @@
             <th>Date début</th>
             <th>Date Fin</th>
             <th>Météo</th>
-          </tr>
+            </tr>
         </thead>
 
         <tbody>
-            {% for data in liste%}
+            {% for data in liste1%}
+            <tr>
+              {%for data_2 in data%}
+              <td>  {{data_2}} </td>
+              {%endfor%}
+            </tr>
+            {%endfor%}
+
+            <th>Nom Vendeur</th>
+            <th>Email</th>
+            <th>Mot de passe</th>
+
+            {% for data in liste2%}
             <tr>
               {%for data_2 in data%}
               <td>  {{data_2}} </td>
@@ -96,7 +108,7 @@
             {%endfor%}
         </tbody>
 
-      </table>
+      </table> -->
 
 
     <p>
