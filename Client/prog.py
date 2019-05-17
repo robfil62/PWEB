@@ -9,18 +9,17 @@ def get_bd(budget,lieu,date_depart,date_retour):
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
 
-    for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
+    for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
         data.append(row)
 
     for destination in data:
         print(destination[1])
-        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[1],lieu):
+        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[1],lieu):
             data.append(row)
             print(row)
 
     connection.close()
     return data
-
 
 def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme):
     data=[]
@@ -61,6 +60,11 @@ def regist_vendeur_bd(nom_vendeur, email, mdp):
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
     connection.execute("insert into Vendeur (nom_vendeur,email,mdp) values (?,?,?)", nom_vendeur,email,mdp)
+    connection.close()
+
+def ajouter_offre_liste(nom_client, id_offre):
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
     connection.close()
 
 def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):

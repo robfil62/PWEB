@@ -26,7 +26,21 @@ def search():
         request.args.get('date_aller'),
         request.args.get('date_retour'));
 
-        return render_template('results.html',liste=data)
+        try:
+            return render_template('results.html',liste=data, logged=session['logged'])
+        except:
+            return render_template('results.html',liste=data, logged=False)
+
+@app.route('/Odyssee/ajouter_liste', methods=['POST'])
+def ajouter_liste():
+    if request.method == 'POST':
+        prog.ajouter_offre_liste(session['username'],
+        request.form['id_offre']);
+
+        try:
+            return render_template('results.html',liste=data, logged=session['logged'])
+        except:
+            return render_template('results.html',liste=data, logged=False)
 
 @app.route('/Odyssee/adv_search',methods=['GET'])
 def adv_search():
@@ -38,23 +52,10 @@ def adv_search():
         request.args.get('meteo'),
         request.args.get('environnement'),
         request.args.get('urbanisme'));
-        ville = [];
-        compagnie = [];
-        moyen = [];
-        depart = [];
-        date = [];
-        prix=[];
-        lien=[];
-        for elem in data:
-            ville.append(elem[1]);
-            compagnie.append(elem[2]);
-            moyen.append(elem[3]);
-            depart.append(elem[4]);
-            date.append(elem[5]);
-            prix.append(elem[6]);
-            lien.append(elem[7]);
-
-        return render_template('results.html',ville=ville, compagnie=compagnie, moyen=moyen, depart=depart, calendar=date, lien=lien, prix=prix)
+        try:
+            return render_template('results.html', liste=data, logged=session['logged'])
+        except:
+            return render_template('results.html', liste=data, logged=False)
 
 @app.route('/Odyssee/advanced_search')
 def advanced_search():
@@ -151,7 +152,6 @@ def register():
 def logout():
    session.clear()
    return redirect(url_for('page_accueil'))
-
 
 @app.route('/new_offer',methods=['POST'])
 def send_offer():
