@@ -73,7 +73,8 @@
   </head>
   <body>
       <div class="center">
-        <!-- <table>
+        {%if liste1!=[]%}
+         <table>
           <thead>
             <tr>
             <th>Ville</th>
@@ -90,11 +91,51 @@
             {% for data in liste1%}
             <tr>
               {%for data_2 in data%}
-              <td>  {{data_2}} </td>
+              <form class="" action="http://localhost:5000/new_dest" method="post">
+              <td>{{data_2}}</td>
+              <input type="hidden" name="ville" id="ville" value={{data_2}}>
+                <td> <input type="text" name="pays" id="pays" required minlength="2"></td>
+                <td> <select class="" name="environnement">
+                  <option value="jungle">Jungle</option>
+                  <option value="foret">Forêt</option>
+                  <option value="montagne">Montagne</option>
+                  <option value="mer">Mer</option>
+                  <option value="ocean">Océan</option>
+                  <option value="desert">Désert</option>
+                  <option value="plaine">Plaine</option>
+                </select></td>
+                <td>   <select class="" name="urbanisme">
+                    <option value="metropole">Métropole</option>
+                    <option value="ville">Ville</option>
+                    <option value="village">Village</option>
+                    <option value="nature">Nature</option>
+                  </select></td>
+                <td> <input type="date" name="date_debut" id="date_debut" required minlength="2"></td>
+                <td> <input type="date" name="date_fin" id="date_fin" required minlength="2"></td>
+                <td>
+                <select class="" name="meteo">
+                  <option value="neige">Enneigé</option>
+                  <option value="froid">Froid</option>
+                  <option value="pluie">Pluvieux</option>
+                  <option value="tempere">Tempéré</option>
+                  <option value="soleil">Ensoleillé</option>
+                  <option value="grande chaleur">Grande chaleur</option>
+                </select></td>
+                <td> <button type="submit" name="send">Send</button></td>
+              </form>
+
               {%endfor%}
             </tr>
             {%endfor%}
+            
+            {%else%}
+              <p> Pas de nouvelles destinations </p>
+            {%endif%}
 
+
+            <tr></tr>
+
+            {%if liste2!=[]%}
             <th>Nom Vendeur</th>
             <th>Email</th>
             <th>Mot de passe</th>
@@ -102,13 +143,31 @@
             {% for data in liste2%}
             <tr>
               {%for data_2 in data%}
-              <td>  {{data_2}} </td>
+
+
+                  <td>  {{data_2}} </td>
               {%endfor%}
+                <form class="" action="http://localhost:5000/new_vend_accept" method="post" id="accept">
+                <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
+                <td> <button type="submit" name="accept" form="accept">Accept</button></td>
+                </form>
+
+              <form class="" action="http://localhost:5000/new_vend_deny" method="post" id="deny">
+                <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
+              <td> <button type="submit" name="deny" form="deny">Deny</button></td>
+              </form>
             </tr>
+
+
+
             {%endfor%}
         </tbody>
 
-      </table> -->
+        {%else%}
+          <p> Pas de nouveaux vendeurs </p>
+        {%endif%}
+
+      </table>
 
 
     <p>

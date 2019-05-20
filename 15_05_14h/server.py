@@ -102,10 +102,10 @@ def register():
             session['username'] = request.form['pseudo']
             session['logged'] = True
             session['type'] = True
-            return redirect(url_for('offrir'))
+            return render_template('page_accueil.html',message="Requête d'adhésion soumise")
+
 
         if(request.form['type']=="client"):
-
             prog.regist_client_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
             session['username'] = request.form['pseudo']
             session['logged'] = True
@@ -118,7 +118,7 @@ def register():
 @app.route('/Odyssee/offer')    #Affichage page vendeur pour nouvelles offres
 def offrir():
     try:
-        if(session['logged'] == True and session['type']==True):
+        if(session['logged'] == True and session['type']==True and prog.vendeur_accepte(session['username'])==1):
             return render_template('offre.html',nom_vendeur=session['username'],message="Bonjour "+session['username']);
         else:
             return redirect(url_for('page_accueil'))
@@ -149,6 +149,39 @@ def gerer():
             return redirect(url_for('page_accueil'))
     except:
         return redirect(url_for('log_page'))
+
+@app.route('/new_dest', methods=['POST'])
+def send():
+    try:
+
+        if(session['logged'] == True and session['username']== 'ADMIN' and request.method=='POST'):
+            prog.update_new_dest(request.form['ville'],request.form['pays'],
+            request.form['environnement'],request.form['urbanisme']);
+
+            prog.update_new_met(request.form['ville'], request.form['date_debut'],
+            request.form['date_fin'], request.form['meteo']);
+            return redirect(url_for('gerer'))
+
+    except:
+        return redirect(url_for('gerer'))
+
+@app.route('/new_vend_accept', methods=['POST'])
+def accept():
+    try:
+        if(session['logged'] == True and session['username']== 'ADMIN' and request.method=='POST'):
+            prog.accept_new_vend(request.form['nom_vendeur']);
+            return redirect(url_for('gerer'))
+    except:
+        return redirect(url_for('gerer'))
+
+@app.route('/new_vend_deny', methods=['POST'])
+def deny():
+    try:
+        if(session['logged'] == True and session['username']== 'ADMIN' and request.method=='POST'):
+            prog.deny_new_vend(request.form['nom_vendeur']);
+            return redirect(url_for('gerer'))
+    except:
+        return redirect(url_for('gerer'))
 
 @app.route('/Odyssee/client')    #Affichage page client
 def enregistre():

@@ -157,11 +157,11 @@
 <body>
 
   <form class="" action="http://localhost:5000/Odyssee/search" method="get">
-    {%if message%}
-      {{message}}
-    {%endif%}
-    <div class="center">
 
+    <div class="center">
+      {%if message%}
+      <p>  {{message}}</p>
+      {%endif%}
 
       <label for="budget">Budget :</label>
     <inright>  <input type="number" id="budget" name="budget" required min="0"></inright>
