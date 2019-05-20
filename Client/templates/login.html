@@ -72,6 +72,14 @@
     <h1>Odyssée</h1>
     <h2>Login</h2>
     </div>
+    <script type="text/javascript">
+    encryptage = function() {
+        var mdp = document.getElementById('mdp').value;
+        console.log('wesh');
+        mdp += 'a';
+        return mdp;
+      }
+    </script>
   </head>
   <body>
     <div>
@@ -96,6 +104,7 @@
       <br /><br />
 
       <button type="submit" name="connexion">Login</button>
+      <!--onclick="document.getElementById('mdp').value = encryptage(document.getElementById('mdp').value)"-->
 
     </form>
     </div>
