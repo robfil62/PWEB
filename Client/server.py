@@ -42,6 +42,13 @@ def ajouter_liste():
         except:
             return render_template('results.html',liste=data, logged=False)
 
+@app.route('/Odyssee/retirer_liste', methods=['POST'])
+def retirer_liste():
+    if request.method == 'POST':
+        prog.retirer_offre_liste(session['username'],
+        request.form['id_offre']);
+        return redirect(url_for('esp_client_page'));
+
 @app.route('/Odyssee/adv_search',methods=['GET'])
 def adv_search():
     if request.method == 'GET':
@@ -78,7 +85,8 @@ def offre_reg_page():
 def esp_client_page():
     try:
         if(session['type'] == False):
-            return render_template('page_client.html');
+            data=prog.recup_liste_client(session['username']);
+            return render_template('page_client.html', liste=data);
         else:
             return render_template('login.html', message="Page réservée aux clients")
     except:

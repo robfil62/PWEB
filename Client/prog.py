@@ -42,6 +42,7 @@ def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme)
         return data_adv
 
     connection.close()
+
 def verif_login_bd(pseudo, mdp):
     data=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
@@ -62,7 +63,17 @@ def regist_vendeur_bd(nom_vendeur, email, mdp):
     connection.execute("insert into Vendeur (nom_vendeur,email,mdp) values (?,?,?)", nom_vendeur,email,mdp)
     connection.close()
 
-def ajouter_offre_liste(nom_client, id_offre):
+def ajouter_offre_liste(nom_client, id_offre): #ajouter les requêtes
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.close()
+
+def retirer_offre_liste(nom_client, id_offre): #ajouter les requêtes
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.close()
+
+def recup_liste_client(nom_client): #ajouter les requêtes
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
     connection.close()
