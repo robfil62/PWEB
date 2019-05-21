@@ -39,11 +39,17 @@ FOREIGN KEY(ville) REFERENCES Destination(ville)
 
 
 CREATE TABLE IF NOT EXISTS Client(
-id_offre INTEGER,
 pseudo_client VARCHAR(255) UNIQUE,
+mdp VARCHAR(255),
 prenom VARCHAR(255),
 nom VARCHAR(255),
 email VARCHAR(255) UNIQUE,
 PRIMARY KEY(pseudo_client)
-FOREIGN KEY(id_offre) REFERENCES Offre(id_offre)
+);
+
+CREATE TABLE IF NOT EXISTS  Historique(
+id_offre INTEGER,
+pseudo_client VARCHAR(255) UNIQUE,
+FOREIGN KEY(id_offre) REFERENCES Offre(id_offre),
+FOREIGN KEY(pseudo_client) REFERENCES Client(pseudo_client)
 );
