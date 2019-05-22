@@ -167,17 +167,20 @@ def offrir():
 
 @app.route('/new_offer',methods=['POST'])   #Gère les nouvelles offres
 def send_offer():
-    if(request.method=='POST'):
-        prog.new_offer_bd(request.form['destination'],
-        request.form['transport'],
-        request.form['depart'],
-        request.form['date'],
-        request.form['prix'],
-        request.form['lien'],
-        session['username']);
-        print("prog fini")
+    try:
+        if(request.method=='POST'):
+            prog.new_offer_bd(request.form['destination'],
+            request.form['transport'],
+            request.form['depart'],
+            request.form['date'],
+            request.form['prix'],
+            request.form['lien'],
+            session['username']);
+            print("prog fini")
 
-    return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
+        return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
+    except:
+        return redirect(url_for('page_accueil))
 
 @app.route('/Odyssee/admin')    #Affichage page admin
 def gerer():
@@ -236,21 +239,27 @@ def esp_client_page():
 
 @app.route('/Odyssee/ajouter_liste', methods=['POST'])
 def ajouter_liste():
-    if request.method == 'POST':
-        msg=prog.ajouter_offre_liste(session['username'],request.form['id_offre']);
+        try:                        
+            if request.method == 'POST':
+                msg=prog.ajouter_offre_liste(session['username'],request.form['id_offre']);
 
 
-    return render_template('results.html',liste=prog.get_adv_bd(session['last_search'][0],session['last_search'][1],
-    session['last_search'][2],session['last_search'][3],session['last_search'][4],session['last_search'][5],
-    session['last_search'][6])[0],message=msg, logged=session['logged'])
+            return render_template('results.html',liste=prog.get_adv_bd(session['last_search'][0],session['last_search'][1],
+            session['last_search'][2],session['last_search'][3],session['last_search'][4],session['last_search'][5],
+            session['last_search'][6])[0],message=msg, logged=session['logged'])
+        except:
+            return redirect(url_for('log_page'))
 
 
 
 @app.route('/Odyssee/retirer_liste', methods=['POST'])
 def retirer_liste():
-    if request.method == 'POST':
-        msg=prog.retirer_offre_liste(session['username'],request.form['id_offre']);
-        return render_template('client.html',liste=prog.recup_liste_client(session['username']), message=msg);
+    try:                        
+        if request.method == 'POST':
+            msg=prog.retirer_offre_liste(session['username'],request.form['id_offre']);
+            return render_template('client.html',liste=prog.recup_liste_client(session['username']), message=msg);
+    except: 
+            return redirect(url_for('log_page'))                
 
 @app.route('/logout')   #Logout session
 def logout():
