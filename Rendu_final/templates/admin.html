@@ -151,12 +151,12 @@
               {%endfor%}
                 <form class="" action="http://localhost:5000/new_vend_accept" method="post" id="accept">
                 <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
-                <td> <button type="submit" name="accept" form="accept">Accept</button></td>
+                <td> <button type="submit" name="accept">Accept</button></td>
                 </form>
 
               <form class="" action="http://localhost:5000/new_vend_deny" method="post" id="deny">
                 <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
-              <td> <button type="submit" name="deny" form="deny">Deny</button></td>
+              <td> <button type="submit" name="deny">Deny</button></td>
               </form>
             </tr>
 
