@@ -2,6 +2,8 @@ from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
 import prog
+import hashlib
+import binascii
 
 app = Flask(__name__)
 data=[]
@@ -56,12 +58,12 @@ def adv_search():
 def log_page():
     return render_template('login.html', message='Bonjour !')
 
-@app.route('/login',methods =['POST'])  #Gère les login clients, vendeurs et admin
+@app.route('/login',methods =['POST'])
 def verif():
     if(request.method=='POST'):
         if (request.form['type'] == 'vendeur'):
-
-            nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp'],'vendeur');
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            nom_vendeur=prog.verif_login_bd(request.form['pseudo'],binascii.hexlify(mdp).decode(),'vendeur');
             if (nom_vendeur!=-1):
                 session['username'] = nom_vendeur
                 session['logged'] = True
@@ -71,7 +73,8 @@ def verif():
                 return render_template('login.html',message="Problème d'authentification")
 
         if (request.form['type'] =='client'):
-            nom_client=prog.verif_login_bd(request.form['pseudo'],request.form['mdp'],'client');
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            nom_client=prog.verif_login_bd(request.form['pseudo'],binascii.hexlify(mdp).decode(),'client');
             if (nom_client!=-1):
                 session['username'] = nom_client
                 session['logged'] = True
@@ -98,11 +101,12 @@ def verif():
 def offre_reg_page():
     return render_template('sign_up.html')
 
-@app.route('/sign_up',methods =['POST'])    #Gère les sign_up
+@app.route('/sign_up',methods =['POST'])
 def register():
     if(request.method=='POST'):
         if(request.form['type']=="vendeur"):
-            prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],binascii.hexlify(mdp).decode());
             session['username'] = request.form['pseudo']
             session['logged'] = True
             session['type'] = True
@@ -110,7 +114,8 @@ def register():
 
 
         if(request.form['type']=="client"):
-            prog.regist_client_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            prog.regist_client_bd(request.form['pseudo'],request.form['email'],binascii.hexlify(mdp).decode());
             session['username'] = request.form['pseudo']
             session['logged'] = True
             session['type'] = False
@@ -118,7 +123,6 @@ def register():
 
     else:
         return render_template('sign_up.html')
-
 @app.route('/Odyssee/offer')    #Affichage page vendeur pour nouvelles offres
 def offrir():
     try:
@@ -142,6 +146,7 @@ def send_offer():
         request.form['prix'],
         request.form['lien'],
         session['username']);
+        print("prog fini")
 
     return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
 
@@ -191,10 +196,10 @@ def deny():
         return redirect(url_for('gerer'))
 
 @app.route('/Odyssee/client')    #Affichage page client
-def enregistre():
+def esp_client_page():
     try:
         if(session['logged'] == True or session['username']== 'Admin'):
-            return render_template('client.html')
+            return render_template('client.html',liste=prog.recup_liste_client(session['username']))
         else:
             return redirect(url_for('page_accueil'))
     except:
@@ -203,20 +208,21 @@ def enregistre():
 @app.route('/Odyssee/ajouter_liste', methods=['POST'])
 def ajouter_liste():
     if request.method == 'POST':
-        prog.ajouter_offre_liste(session['username'],
-        request.form['id_offre']);
-
+        msg=prog.ajouter_offre_liste(session['username'],request.form['id_offre']);
+        liste=request.form['liste']
+        print("coucoucoucoucoucoucouocuc")
+        print(msg)
+        print(liste[0])
         try:
-            return render_template('results.html',liste=data, logged=session['logged'])
+            return render_template('results.html',liste=liste, logged=session['logged'], message=msg)
         except:
-            return render_template('results.html',liste=data, logged=False)
+            return render_template('results.html',liste=liste, logged=False)
 
 @app.route('/Odyssee/retirer_liste', methods=['POST'])
 def retirer_liste():
     if request.method == 'POST':
-        prog.retirer_offre_liste(session['username'],
-        request.form['id_offre']);
-        return redirect(url_for('esp_client_page'));
+        msg=prog.retirer_offre_liste(session['username'],request.form['id_offre']);
+        return render_template('client.html',message=msg);
 
 @app.route('/logout')   #Logout session
 def logout():

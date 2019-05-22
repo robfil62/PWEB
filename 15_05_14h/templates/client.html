@@ -51,6 +51,9 @@
   <body>
     <div>
     <div class="center">
+      {%if message%}
+      {{message}}
+      {%endif%}
     {% if liste!=[] %}
       <table>
         <thead>
@@ -72,7 +75,10 @@
 
               <td>{{data[i]}}</td>
               {%endfor%}
-              <button type="button", id={{data[7]}} , name="button">Retirer</button>
+              <form class="" action="http://localhost:5000/Odyssee/retirer_liste" method="post" id={{data[7]}}>
+                <input type="hidden" name="id_offre" id="id_offre" value="{{data[7]}}">
+                <td> <button type="submit" name="delete" form={{data[7]}}>Retirer de la liste</button> </td>
+              </form>
             {%endfor%}
           </tr>
         </tbody>
@@ -82,20 +88,7 @@
 
 
     </div>
-    <script type="text/javascript">
-      retirer_liste = function(num) {
-        console.log(num);
-        var xhr = new XMLHttpRequest();
-        var offre = encodeURIComponent(num);
-        xhr.open('POST', 'http://localhost:5000/Odyssee/retirer_liste');
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send('id_offre='+num);
-      }
-      var btn = document.getElementsByName("button");
-      for(var i = 0; i < btn.length; i++) {
-        btn[i].addEventListener('click', function() {retirer_liste(this.getAttribute('id'))});
-      }
-    </script>
+  
     {%else%}
       <p>Votre liste est vide</p>
     {%endif%}

@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.sql import *
 from flask import *
+import requests
 
 def get_bd(budget,lieu,date_depart,date_retour):    #Recherche simple
     res=[]
@@ -17,6 +18,7 @@ def get_bd(budget,lieu,date_depart,date_retour):    #Recherche simple
         res.append(retour)
 
     connection.close()
+    print(res)
     return res
 
 def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme):   #Recherche avancée
@@ -75,53 +77,86 @@ def regist_client_bd(nom_client, email, mdp):   #Insert nouveau client dans la b
     connection.close()
 
 def ajouter_offre_liste(nom_client, id_offre): #ajouter les requêtes
+    liste=recup_liste_client(nom_client)
+    for destination in liste:
+        offre=(int)(destination[7])
+        id= (int) (id_offre)
+        print("dest",offre)
+        print("offre",id)
+        print(offre==id)
+        if (offre==id):
+            print("dejaaaaaaaaaaaaaaaaaa")
+            return "Offre déjà dans votre liste"
+
+    print("continueeeeeeeeeee")
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
+    connection.execute("insert into Historique (id_offre, pseudo_client) values (?,?)", id_offre,nom_client)
+    print("ajouuuuuuuuuuuuuuuuuuutttttttttt")
     connection.close()
+    return "Offre ajoutée"
 
 def retirer_offre_liste(nom_client, id_offre): #ajouter les requêtes
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
+    connection.execute("delete from Historique where (id_offre=?) and (pseudo_client=?)", id_offre,nom_client)
     connection.close()
+    return "Offre supprimée"
 
 def recup_liste_client(nom_client): #ajouter les requêtes
+    liste1=[]
+    liste2=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
+    for row in connection.execute("select id_offre from Historique where (pseudo_client = ?)",nom_client):
+        liste1.append(row)
+
+    for id in liste1:
+        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (id_offre=?)",id):
+            liste2.append(row)
+
     connection.close()
+    return liste2
 
 def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):  #Insert nouvelle offre après vérification
     data=[]
     dest=[]
     prix=float(prix)
     offer=[destination,offreur,transport,depart,date,prix,lien]
+    print("offer",offer)
 
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
 
+    print("cooooooooo")
     for row in connection.execute("select * from Offre where (nom_vendeur==?)",offreur):
         data.append(row)
+        print(row)
 
-    try :
-        r = requests.get(offer[6])  #On vérifie l'accès au site
-        if r.status_code != 200:
-            connection.close()
-            return "Erreur dans le lien"
-    except:
-        connection.close()
-        return "Erreur dans le lien"
+    # try :
+    #     r = requests.get(offer[6])  #On vérifie l'accès au site
+    #     print(offer[6])
+    #     if r.status_code != 200:
+    #         connection.close()
+    #         return "Erreur dans le lien"
+    # except:
+    #     connection.close()
+    #     return "Erreur dans le lien"
 
-    for i in range (0,len(data)):   #On vérifie que l'offre n'existe pas déjà
-        C=0
-        for k in range(1,8):
-            if data[i][k]==offer[k-1]:
-                C+=1
+    if (len(data)!=0):
+        for i in range (0,len(data)):   #On vérifie que l'offre n'existe pas déjà
+            C=0
+            for k in range(1,8):
+                if data[i][k]==offer[k-1]:
+                    C+=1
 
             if C==7:
                 connection.close()
                 return "Erreur dans l'offre"
 
+    print("avant ajoutttttttttt")
     connection.execute("insert into Offre (ville, nom_vendeur, moyen_transport, ville_depart,date_offre,prix_offre,site,validation) values (?,?,?,?,?,?,?,1)", destination,offreur,transport,depart,date,prix,lien)
-
+    print("ajouteeeeeeeeeeeeee")
     for row in connection.execute("select * from Destination where (ville==?)",destination):
         dest.append(row)
     if dest==[]:    #Si c'est une nouvelle destination, on la crée dans les tables destination et meteo
