@@ -7,6 +7,10 @@ app = Flask(__name__)
 data=[]
 app.secret_key="auhasard"
 
+@app.route('/')
+def defaut():
+    return redirect(url_for('page_accueil'))
+
 @app.route('/Odyssee')  #Page d'accueil
 def page_accueil():
     try :
@@ -118,8 +122,11 @@ def register():
 @app.route('/Odyssee/offer')    #Affichage page vendeur pour nouvelles offres
 def offrir():
     try:
-        if(session['logged'] == True and session['type']==True and prog.vendeur_accepte(session['username'])==1):
-            return render_template('offre.html',nom_vendeur=session['username'],message="Bonjour "+session['username']);
+        if(session['logged'] == True and session['type']==True):
+            if(prog.vendeur_accepte(session['username'])==1):
+                return render_template('offre.html',nom_vendeur=session['username'],message="Bonjour "+session['username']);
+            else:
+                return render_template('page_accueil.html',message="Votre compte est en attente d'approbation",logged=session['logged'])
         else:
             return redirect(url_for('page_accueil'))
     except:
@@ -192,6 +199,24 @@ def enregistre():
             return redirect(url_for('page_accueil'))
     except:
         return redirect(url_for('log_page'))
+
+@app.route('/Odyssee/ajouter_liste', methods=['POST'])
+def ajouter_liste():
+    if request.method == 'POST':
+        prog.ajouter_offre_liste(session['username'],
+        request.form['id_offre']);
+
+        try:
+            return render_template('results.html',liste=data, logged=session['logged'])
+        except:
+            return render_template('results.html',liste=data, logged=False)
+
+@app.route('/Odyssee/retirer_liste', methods=['POST'])
+def retirer_liste():
+    if request.method == 'POST':
+        prog.retirer_offre_liste(session['username'],
+        request.form['id_offre']);
+        return redirect(url_for('esp_client_page'));
 
 @app.route('/logout')   #Logout session
 def logout():

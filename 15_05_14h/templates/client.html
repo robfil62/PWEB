@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <style>
@@ -11,76 +12,94 @@
       margin: 20px;
       text-align: center;
     }
-
     .center{
       margin: auto;
       width: 60%;
       padding: 10 px;
-      background-color:rgba(50,175,20,0.3);
       text-align: center;
-      text-shadow: 2px 2px 4px #000000;
-      font-family: "Courrier New", Times, serif;
-      font-weight: bold;
-      color:#f2f2f2;
+      background-color:rgba(50,175,20,0.3);
+      font-family: "Palatino Linotype", Palatino, serif;
+    }
+    div{
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      width:100%;
     }
     body{
       background-color: #66CDAA;
       background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
       background_size: cover;
     }
-    div{
-      border-radius: 5px;
-      background-color: #f2f2f2;
-      padding: 20px;
+    th{
+      text-transform: capitalize;
+      color: #f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      padding: 5px;
     }
-    label{
-      display: block;
-      float: left;
-    }
-
-    inright{
-      diplay:block;
-      float: right;
-    }
-
-    a:link{
-      font-size: 15px;
-      color:white;
-    }
-    a:visited{
-      font-size: 15px;
-      color:darkblue;
-    }
-    a:hover{
-      font-size: 15px;
-      color:hotpink;
-    }
-    a:active{
-      font-size: 15px;
-      color:blue;
-    }
-    p{
-      font-size: 20px;
-    }
-</style>
+  </style>
   <head>
     <meta charset="utf-8">
-    <title>Odyssée - Client </title>
+    <title>Odyssée - Espace Client</title>
     <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
     <div class="header">
-    <h1></h1>
+    <h1>Odyssée</h1>
+    <h2>Ma Liste</h2>
   </div>
+
   </head>
   <body>
-      <div class="center">
+    <div>
+    <div class="center">
+    {% if liste!=[] %}
+      <table>
+        <thead>
+          <tr>
+          <th>Destination</th>
+          <th>Compagnie</th>
+          <th>Moyen de transport</th>
+          <th>Départ</th>
+          <th>Date</th>
+          <th>prix</th>
+          <th>lien</th>
+        </tr>
+      </thead>
+
+      <tbody>
+          {% for data in liste%}
+          <tr>
+            {% for i in range(7) %}
+
+              <td>{{data[i]}}</td>
+              {%endfor%}
+              <button type="button", id={{data[7]}} , name="button">Retirer</button>
+            {%endfor%}
+          </tr>
+        </tbody>
+
+    </table>
 
 
-    <p>
-      <a href="/logout">logout</a>
-      <a href="http://localhost:5000/Odyssee">Accueil</a>
 
-    </p>
-
-
+    </div>
+    <script type="text/javascript">
+      retirer_liste = function(num) {
+        console.log(num);
+        var xhr = new XMLHttpRequest();
+        var offre = encodeURIComponent(num);
+        xhr.open('POST', 'http://localhost:5000/Odyssee/retirer_liste');
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send('id_offre='+num);
+      }
+      var btn = document.getElementsByName("button");
+      for(var i = 0; i < btn.length; i++) {
+        btn[i].addEventListener('click', function() {retirer_liste(this.getAttribute('id'))});
+      }
+    </script>
+    {%else%}
+      <p>Votre liste est vide</p>
+    {%endif%}
+    <a href="http://localhost:5000/Odyssee">Accueil</a>
+  </div>
   </body>
 </html>

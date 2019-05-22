@@ -76,10 +76,11 @@
             {% for i in range(7) %}
 
               <td>{{data[i]}}</td>
+
               {%endfor%}
-            {%if logged == True%}
-              <button type="button", id={{data[7]}} , name="button">Ajouter à ma liste</button>
-              {%endif%}
+              {%if logged == True%}
+                <td><button type="button", id={{data[7]}} , name="button">Ajouter à ma liste</button></td>
+                {%endif%}
             {%endfor%}
           </tr>
         </tbody>

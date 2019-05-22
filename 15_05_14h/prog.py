@@ -7,11 +7,11 @@ def get_bd(budget,lieu,date_depart,date_retour):    #Recherche simple
     retours=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
-    for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?)",budget,lieu,date_depart):
+    for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (prix_offre <= ?) and (ville_depart == ?) and (date_offre >= ?) and (date_offre<=?)",budget,lieu,date_depart,date_retour):
         res.append(row)
 
     for destination in res: #Récupère aussi les retours
-        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[0],lieu):
+        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[0],lieu):
             retours.append(row)
     for retour in retours:
         res.append(retour)
@@ -25,11 +25,11 @@ def get_adv_bd(budget,lieu,date_aller,date_retour,meteo,environnement,urbanisme)
     retours=[]
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
-    for row in connection.execute("select o.ville, o.nom_vendeur, o.moyen_transport, o.ville_depart, o.date_offre, o.prix_offre, o.site from Offre as o, Destination as d, Meteo as m where (o.prix_offre <= ?) and (o.ville_depart == ?) and (o.date_offre >= ?) and (o.date_offre <= ?) and (d.ville==o.ville) and (d.environnement==?) and (d.urbanisme==?) and (o.ville==m.ville) and (m.meteo==?) and (strftime('%m',m.date_debut)<=strftime('%m',?)) and (strftime('%m',m.date_fin)>=strftime('%m',?))",budget,lieu,date_aller,date_retour, environnement, urbanisme,meteo, date_aller, date_retour):
+    for row in connection.execute("select o.ville, o.nom_vendeur, o.moyen_transport, o.ville_depart, o.date_offre, o.prix_offre, o.site, o.id_offre from Offre as o, Destination as d, Meteo as m where (o.prix_offre <= ?) and (o.ville_depart == ?) and (o.date_offre >= ?) and (o.date_offre <= ?) and (d.ville==o.ville) and (d.environnement==?) and (d.urbanisme==?) and (o.ville==m.ville) and (m.meteo==?) and (strftime('%m',m.date_debut)<=strftime('%m',?)) and (strftime('%m',m.date_fin)>=strftime('%m',?))",budget,lieu,date_aller,date_retour, environnement, urbanisme,meteo, date_aller, date_retour):
         res_adv.append(row)
 
     for destination in res_adv: #Recherche les retours
-        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[0],lieu):
+        for row in connection.execute("select ville, nom_vendeur, moyen_transport, ville_depart, date_offre, prix_offre, site, id_offre from Offre where (prix_offre <= ?) and (ville_depart == ?) and (ville==?)",budget,destination[0],lieu):
             retours.append(row)
     for retour in retours:
         res_adv.append(retour)
@@ -72,6 +72,21 @@ def regist_client_bd(nom_client, email, mdp):   #Insert nouveau client dans la b
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
     connection.execute("insert into Client (pseudo_client,mdp,email) values (?,?,?)", nom_client,mdp,email)
+    connection.close()
+
+def ajouter_offre_liste(nom_client, id_offre): #ajouter les requêtes
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.close()
+
+def retirer_offre_liste(nom_client, id_offre): #ajouter les requêtes
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
+    connection.close()
+
+def recup_liste_client(nom_client): #ajouter les requêtes
+    engine = create_engine('sqlite:///BASEWEB.db', echo=True)
+    connection = engine.connect()
     connection.close()
 
 def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):  #Insert nouvelle offre après vérification
