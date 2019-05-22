@@ -75,7 +75,10 @@
               <td>{{data[i]}}</td>
               {%endfor%}
             {%if logged == True%}
-              <button type="button", id={{data[7]}} , name="button">Ajouter à ma liste</button>
+            <form class="" action="http://localhost:5000/Odyssee/ajouter_liste" method="post" id={{data[7]}}>
+              <input type="hidden" name="id_offre" id="id_offre" value="{{data[7]}}">
+              <td> <button type="submit" id="ajouter" form={{data[7]}}>Ajouter à ma liste</button> </td>
+            </form>
               {%endif%}
             {%endfor%}
           </tr>
@@ -86,20 +89,6 @@
 
 
     </div>
-    <script type="text/javascript">
-      ajouter_liste = function(num) {
-        console.log(num);
-        var xhr = new XMLHttpRequest();
-        var offre = encodeURIComponent(num);
-        xhr.open('POST', 'http://localhost:5000/Odyssee/ajouter_liste');
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send('id_offre='+num);
-      }
-      var btn = document.getElementsByName("button");
-      for(var i = 0; i < btn.length; i++) {
-        btn[i].addEventListener('click', function() {ajouter_liste(this.getAttribute('id'))});
-      }
-    </script>
     {%else%}
       <p>Pas de résultats</p>
     {%endif%}

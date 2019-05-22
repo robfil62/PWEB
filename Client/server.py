@@ -85,7 +85,8 @@ def offre_reg_page():
 def esp_client_page():
     try:
         if(session['type'] == False):
-            data=prog.recup_liste_client(session['username']);
+            #data=prog.recup_liste_client(session['username']);
+            data=[];
             return render_template('page_client.html', liste=data);
         else:
             return render_template('login.html', message="Page réservée aux clients")
@@ -106,7 +107,8 @@ def offrir():
 def verif():
     if(request.method=='POST'):
         if (request.form['type'] == 'vendeur'):
-            nom_vendeur=prog.verif_login_bd(request.form['pseudo'],request.form['mdp']);
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            nom_vendeur=prog.verif_login_bd(request.form['pseudo'],binascii.hexlify(mdp).decode(),'vendeur');
             if (nom_vendeur!=-1):
                 session['username'] = nom_vendeur
                 session['logged'] = True
@@ -114,11 +116,18 @@ def verif():
                 return redirect(url_for('offrir'))
             else:
                 return render_template('login.html',message="Problème d'authentification")
-        else:
-            session['username'] = request.form['pseudo']
-            session['logged'] = True
-            session['type'] = False
-            return redirect(url_for('esp_client_page'))
+
+        if (request.form['type'] =='client'):
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            nom_client=prog.verif_login_bd(request.form['pseudo'],binascii.hexlify(mdp).decode(),'client');
+            if (nom_client!=-1):
+                session['username'] = nom_client
+                session['logged'] = True
+                session['type'] = False
+                return render_template('page_accueil.html',logged=session['logged'], message="Bonjour "+nom_client)
+
+            else:
+                return render_template('login.html',message="Problème d'authentification")
 
 @app.route('/log_adm',methods =['POST'])
 def verif_adm():
@@ -145,14 +154,23 @@ def gerer():
 @app.route('/sign_up',methods =['POST'])
 def register():
     if(request.method=='POST'):
-        if(request.form['type'] == 'vendeur'):
-            prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],request.form['mdp']);
-            session['type'] = True #True pour vendeur, False pour client
-        if(request.form['type'] == 'client'):
+        if(request.form['type']=="vendeur"):
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],binascii.hexlify(mdp).decode());
+            session['username'] = request.form['pseudo']
+            session['logged'] = True
+            session['type'] = True
+            return render_template('page_accueil.html',message="Requête d'adhésion soumise")
+
+
+        if(request.form['type']=="client"):
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            prog.regist_client_bd(request.form['pseudo'],request.form['email'],binascii.hexlify(mdp).decode());
+            session['username'] = request.form['pseudo']
+            session['logged'] = True
             session['type'] = False
-        session['username'] = request.form['pseudo']
-        session['logged'] = True
-        return redirect(url_for('offrir'))
+            return render_template('page_accueil.html',logged=session['logged'], message="Bonjour "+session['username'])
+
     else:
         return render_template('sign_up.html')
 
