@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<style>
+    .header{
+      background-color: rgba(0,175,20,0.3);
+      color:#f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      border-radius: 15px 50px;
+      font-family: "Courrier New", Times, serif;
+      padding:10px;
+      margin: 20px;
+      text-align: center;
+    }
+    .center{
+      margin: auto;
+      width: 60%;
+      padding: 10 px;
+      text-align: center;
+      background-color:rgba(50,175,20,0.3);
+      font-family: "Palatino Linotype", Palatino, serif;
+    }
+    div{
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      width:100%;
+    }
+    body{
+      background-color: #66CDAA;
+      background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+      background_size: cover;
+    }
+    th{
+      text-transform: capitalize;
+      color: #f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      padding: 5px;
+    }
+  </style>
+  <head>
+    <meta charset="utf-8">
+    <title>Odyssée - Espace Client</title>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+    <h1>Odyssée</h1>
+    <h2>Ma Liste</h2>
+  </div>
+
+  </head>
+  <body>
+    <div>
+    <div class="center">
+      {%if message%}
+      {{message}}
+      {%endif%}
+    {% if liste!=[] %}
+      <table>
+        <thead>
+          <tr>
+          <th>Destination</th>
+          <th>Compagnie</th>
+          <th>Moyen de transport</th>
+          <th>Départ</th>
+          <th>Date</th>
+          <th>prix</th>
+          <th>lien</th>
+        </tr>
+      </thead>
+
+      <tbody>
+          {% for data in liste%}
+          <tr>
+            {% for i in range(7) %}
+
+              <td>{{data[i]}}</td>
+              {%endfor%}
+              <form class="" action="http://localhost:5000/Odyssee/retirer_liste" method="post" id={{data[7]}}>
+                <input type="hidden" name="id_offre" id="id_offre" value="{{data[7]}}">
+                <td> <button type="submit" name="delete" form={{data[7]}}>Retirer de la liste</button> </td>
+              </form>
+            {%endfor%}
+          </tr>
+        </tbody>
+
+    </table>
+
+
+
+    </div>
+  
+    {%else%}
+      <p>Votre liste est vide</p>
+    {%endif%}
+    <a href="http://localhost:5000/Odyssee">Accueil</a>
+  </div>
+  </body>
+</html>

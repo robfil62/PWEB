@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<style>
+    .header{
+      background-color: rgba(0,175,20,0.3);
+      color:#f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      border-radius: 15px 50px;
+      font-family: "Courrier New", Times, serif;
+      padding:10px;
+      margin: 20px;
+      text-align: center;
+    }
+
+    .center{
+      margin: auto;
+      width: 60%;
+      padding: 10 px;
+      background-color:rgba(50,175,20,0.3);
+      text-align: center;
+      text-shadow: 2px 2px 4px #000000;
+      font-family: "Courrier New", Times, serif;
+      font-weight: bold;
+      color:#f2f2f2;
+    }
+    body{
+      background-color: #66CDAA;
+      background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+      background_size: cover;
+    }
+    div{
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    label{
+      display: block;
+      float: left;
+    }
+
+    inright{
+      diplay:block;
+      float: right;
+    }
+
+    a:link{
+      font-size: 15px;
+      color:white;
+    }
+    a:visited{
+      font-size: 15px;
+      color:darkblue;
+    }
+    a:hover{
+      font-size: 15px;
+      color:hotpink;
+    }
+    a:active{
+      font-size: 15px;
+      color:blue;
+    }
+    p{
+      font-size: 20px;
+    }
+</style>
+  <head>
+    <meta charset="utf-8">
+    <title>Odyssée - Gérer offre </title>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+    <h1>Gestion d'offre et vendeur</h1>
+  </div>
+  </head>
+  <body>
+      <div class="center">
+        {%if liste1!=[]%}
+         <table>
+          <thead>
+            <tr>
+            <th>Ville</th>
+            <th>Pays</th>
+            <th>Environnement</th>
+            <th>Urbanisme</th>
+            <th>Date début</th>
+            <th>Date Fin</th>
+            <th>Météo</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for data in liste1%}
+            <tr>
+              {%for data_2 in data%}
+              <form class="" action="http://localhost:5000/new_dest" method="post">
+              <td>{{data_2}}</td>
+              <input type="hidden" name="ville" id="ville" value={{data_2}}>
+                <td> <input type="text" name="pays" id="pays" required minlength="2"></td>
+                <td> <select class="" name="environnement">
+                  <option value="jungle">Jungle</option>
+                  <option value="foret">Forêt</option>
+                  <option value="montagne">Montagne</option>
+                  <option value="mer">Mer</option>
+                  <option value="ocean">Océan</option>
+                  <option value="desert">Désert</option>
+                  <option value="plaine">Plaine</option>
+                </select></td>
+                <td>   <select class="" name="urbanisme">
+                    <option value="metropole">Métropole</option>
+                    <option value="ville">Ville</option>
+                    <option value="village">Village</option>
+                    <option value="nature">Nature</option>
+                  </select></td>
+                <td> <input type="date" name="date_debut" id="date_debut" required minlength="2"></td>
+                <td> <input type="date" name="date_fin" id="date_fin" required minlength="2"></td>
+                <td>
+                <select class="" name="meteo">
+                  <option value="neige">Enneigé</option>
+                  <option value="froid">Froid</option>
+                  <option value="pluie">Pluvieux</option>
+                  <option value="tempere">Tempéré</option>
+                  <option value="soleil">Ensoleillé</option>
+                  <option value="grande chaleur">Grande chaleur</option>
+                </select></td>
+                <td> <button type="submit" name="send">Send</button></td>
+              </form>
+
+              {%endfor%}
+            </tr>
+            {%endfor%}
+
+            {%else%}
+              <p> Pas de nouvelles destinations </p>
+            {%endif%}
+
+            </table>
+            <tr></tr>
+
+            {%if liste2!=[]%}
+            <table>
+            
+            <th>Nom Vendeur</th>
+            <th>Email</th>
+            <th>Mot de passe</th>
+
+            {% for data in liste2%}
+            <tr>
+              {%for data_2 in data%}
+
+
+                  <td>  {{data_2}} </td>
+              {%endfor%}
+                <form class="" action="http://localhost:5000/new_vend_accept" method="post" id="accept">
+                <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
+                <td> <button type="submit" name="accept" form="accept">Accept</button></td>
+                </form>
+
+              <form class="" action="http://localhost:5000/new_vend_deny" method="post" id="deny">
+                <input type="hidden" name="nom_vendeur" id="nom_vendeur" value={{data[0]}}>
+              <td> <button type="submit" name="deny" form="deny">Deny</button></td>
+              </form>
+            </tr>
+
+
+
+            {%endfor%}
+        </tbody>
+
+        {%else%}
+          <p> Pas de nouveaux vendeurs </p>
+        {%endif%}
+
+      </table>
+
+
+    <p>
+      <a href="/logout">[logout]</a>
+    </p>
+
+
+  </body>
+</html>

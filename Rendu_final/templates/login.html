@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<style>
+    .header{
+      background-color: rgba(0,175,20,0.3);
+      color:#f2f2f2;
+      text-shadow: 2px 2px 4px #000000;
+      border-radius: 15px 50px;
+      font-family: "Courrier New", Times, serif;
+      padding:10px;
+      margin: 20px;
+      text-align: center;
+    }
+    .center{
+      margin: auto;
+      width: 60%;
+      padding: 10 px;
+      background-color:rgba(50,175,20,0.3);
+      text-align: center;
+      text-shadow: 2px 2px 4px #000000;
+      font-family: "Courrier New", Times, serif;
+      font-weight: bold;
+      color:#f2f2f2;
+    }
+    body{
+      background-color: #66CDAA;
+      background-image: linear-gradient(to top left, #66CDAA, #48D1CC)
+      background_size: cover;
+    }
+    div{
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    label{
+      display: block;
+      float: left;
+    }
+    inright{
+      diplay:block;
+      float: right;
+    }
+    a:link{
+      font-size: 15px;
+      color:white;
+    }
+    a:visited{
+      font-size: 15px;
+      color:darkblue;
+    }
+    a:hover{
+      font-size: 15px;
+      color:hotpink;
+    }
+    a:active{
+      font-size: 15px;
+      color:blue;
+    }
+    p{
+      font-size: 20px;
+    }
+  </style>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Odyssée - login</title>
+    <link rel="icon" type ="image/png" href="static/logo_Ody.png" />
+    <div class="header">
+    <h1>Odyssée</h1>
+    <h2>Login</h2>
+    </div>
+  </head>
+  <body>
+    <div>
+    <div class="center">
+
+    <p> {{message}} </p>
+    <form class="" action="http://localhost:5000/login" method="post">
+
+      <label for="type">Se connecter en tant que </label>
+      <select class="" name="type">
+        <option value="vendeur">Vendeur</option>
+        <option value="client">Client</option>
+        <option value="admin">Admin</option>
+      </select>
+      <br /><br />
+
+      <label for="pseudo">Entrez votre pseudo</label>
+      <inright><input type="text" name="pseudo" id="pseudo" required minlength="2" ></inright>
+      <br /><br />
+
+      <label for="mdp">Entrez votre mot de passe</label>
+      <inright><input type="password" name="mdp" id="mdp" required minlength="2"></inright>
+      <br /><br />
+
+      <button type="submit" name="connexion">Login</button>
+
+    </form>
+    </div>
+    <a href="http://localhost:5000/Odyssee">Accueil</a>
+    <a href="http://localhost:5000/Odyssee/sign_up_page">Sign Up</a>
+
+</div>
+  </body>
+</html>
