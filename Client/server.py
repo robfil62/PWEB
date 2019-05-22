@@ -1,6 +1,8 @@
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.sql import *
+import hashlib
+import binascii
 import prog
 
 app = Flask(__name__)
