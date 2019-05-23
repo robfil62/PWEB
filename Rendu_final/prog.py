@@ -127,15 +127,11 @@ def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):  #Ins
     dest=[]
     prix=float(prix)
     offer=[destination,offreur,transport,depart,date,prix,lien]
-    print("offer",offer)
 
     engine = create_engine('sqlite:///BASEWEB.db', echo=True)
     connection = engine.connect()
 
-    print("cooooooooo")
-    for row in connection.execute("select * from Offre where (nom_vendeur==?)",offreur):
-        data.append(row)
-        print(row)
+    data.append(row)
 
     if (len(data)!=0):
         for i in range (0,len(data)):   #On vérifie que l'offre n'existe pas déjà
@@ -150,7 +146,6 @@ def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):  #Ins
 
     try :
         r = requests.get(offer[6])  #On vérifie l'accès au site
-        print(offer[6])
         if r.status_code != 200:
             connection.close()
             return "Erreur dans le lien"
@@ -158,9 +153,7 @@ def new_offer_bd(destination, transport, depart, date,prix,lien, offreur):  #Ins
         connection.close()
         return "Erreur dans le lien"
 
-    print("avant ajoutttttttttt")
     connection.execute("insert into Offre (ville, nom_vendeur, moyen_transport, ville_depart,date_offre,prix_offre,site,validation) values (?,?,?,?,?,?,?,1)", destination,offreur,transport,depart,date,prix,lien)
-    print("ajouteeeeeeeeeeeeee")
     for row in connection.execute("select * from Destination where (ville==?)",destination):
         dest.append(row)
     if dest==[]:    #Si c'est une nouvelle destination, on la crée dans les tables destination et meteo

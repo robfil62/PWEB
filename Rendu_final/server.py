@@ -79,7 +79,7 @@ def adv_search():
 def log_page():
     return render_template('login.html', message='Bonjour !')
 
-@app.route('/login',methods =['POST'])
+@app.route('/login',methods =['POST'])  #Log un admin, client ou vendeur
 def verif():
     if(request.method=='POST'):
         if (request.form['type'] == 'vendeur'):
@@ -127,11 +127,11 @@ def verif():
 def offre_reg_page():
     return render_template('sign_up.html')
 
-@app.route('/sign_up',methods =['POST'])
+@app.route('/sign_up',methods =['POST'])    #Enregistre un nouveau vendeur ou client dans la bd
 def register():
     if(request.method=='POST'):
         if(request.form['type']=="vendeur"):
-            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )
+            mdp = hashlib.pbkdf2_hmac('sha256', request.form['mdp'].encode(), b'5gz', 100000 )  #Cryptage du mdp
             try:
                 prog.regist_vendeur_bd(request.form['pseudo'],request.form['email'],binascii.hexlify(mdp).decode());
                 session['username'] = request.form['pseudo']
@@ -188,7 +188,6 @@ def send_offer():
             request.form['prix'],
             request.form['lien'],
             session['username']);
-            print("prog fini")
 
         return render_template('offre.html',nom_vendeur=session['username'],message='Offre envoyée');
     except:
@@ -206,7 +205,7 @@ def gerer():
     except:
         return redirect(url_for('log_page'))
 
-@app.route('/new_dest', methods=['POST'])
+@app.route('/new_dest', methods=['POST'])   #Upload une nouvelle destination avec la meteo et l'environement rentrés par l'admin
 def send():
     try:
 
@@ -221,7 +220,7 @@ def send():
     except:
         return redirect(url_for('gerer'))
 
-@app.route('/new_vend_accept', methods=['POST'])
+@app.route('/new_vend_accept', methods=['POST'])    #Accepte un nouveau vendeur
 def accept():
     try:
         if(session['logged'] == True and session['username']== 'ADMIN' and request.method=='POST'):
@@ -230,7 +229,7 @@ def accept():
     except:
         return redirect(url_for('gerer'))
 
-@app.route('/new_vend_deny', methods=['POST'])
+@app.route('/new_vend_deny', methods=['POST'])  #Refuse un nouveau vendeur
 def deny():
     try:
         if(session['logged'] == True and session['username']== 'ADMIN' and request.method=='POST'):
@@ -249,7 +248,7 @@ def esp_client_page():
     except:
         return redirect(url_for('log_page'))
 
-@app.route('/Odyssee/ajouter_liste', methods=['POST'])
+@app.route('/Odyssee/ajouter_liste', methods=['POST'])  #Ajoute une offre à la liste client
 def ajouter_liste():
         try:
             if request.method == 'POST':
@@ -264,7 +263,7 @@ def ajouter_liste():
 
 
 
-@app.route('/Odyssee/retirer_liste', methods=['POST'])
+@app.route('/Odyssee/retirer_liste', methods=['POST'])  #Retire une offre de la liste client
 def retirer_liste():
     try:
         if request.method == 'POST':
